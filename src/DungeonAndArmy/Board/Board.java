@@ -34,26 +34,32 @@ public class Board {
     public void createBoard(){
         for(int y = 0; y < 20; y++){
             for(int x = 0; x < 20; x++){
-                Button ButtonPosition = new Button("");
-                ButtonPosition.getStyleClass().add("rows");
-                ButtonPosition.getStyleClass().add("natural-color");
+                Button btnPosition = new Button("");
+                btnPosition.getStyleClass().add("rows");
+                btnPosition.getStyleClass().add("natural-color");
 
                 int finalX = x+1;
                 int finalY = y+1;
-                ButtonPosition.setOnAction(e -> getPosition(finalX, finalY, e) );
-                Board.add(ButtonPosition, finalX, finalY);
+                btnPosition.setOnAction(e -> getPosition(finalX, finalY, e) );
+                Board.add(btnPosition, finalX, finalY);
             }
         }
     }
 
     public void createBases(){
-        Button Base1 = new Button("X");
-        Base1.getStyleClass().add("base");
-        Board.add(Base1, helper.getRandom(20)+1, 0);
+        Button btnBase_1 = new Button("A");
+        btnBase_1.getStyleClass().add("base");
+        int base1 = helper.getRandom(20);
+        Board.add(btnBase_1, base1, 0);
 
-        Button Base2 = new Button("X");
-        Base2.getStyleClass().add("base");
-        Board.add(Base2, helper.getRandom(20)+1, 21);
+        Button btnBase_2 = new Button("B");
+        btnBase_2.getStyleClass().add("base");
+        int base2 = helper.getRandom(20);
+        Board.add(btnBase_2, base2, 21);
+
+        System.out.println(base2);
+        System.out.println(base1);
+
     }
 
     public void getPosition(int x, int y, ActionEvent e){
@@ -64,14 +70,14 @@ public class Board {
         System.out.println("Position x: " + x + ", position y: " + y);
     }
 
-    public void invocarDados(ActionEvent e){
-        System.out.println("Invocando dados");
+    public void invokeDice(ActionEvent e){
+        System.out.println("Invoking dices");
     }
 
-    public void invocarCamino(ActionEvent e){
-        Button btnCamino = (Button) e.getSource();
-        String idCamino = btnCamino.getId();
+    public void invokePath(ActionEvent e){
+        Button btnPath = (Button) e.getSource();
+        String idPath = btnPath.getId();
 
-        System.out.println(idCamino);
+        System.out.println(idPath);
     }
 }

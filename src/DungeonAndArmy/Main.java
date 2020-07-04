@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryWindow) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Index/Index.fxml"));
-        primaryStage.setTitle("Dungeon and Army");
-        primaryStage.setScene(new Scene(root, 800, 775));
-        primaryStage.show();
+        primaryWindow.setTitle("Dungeon and Army");
+        primaryWindow.setScene(new Scene(root, 800, 775));
+        primaryWindow.show();
     }
 
 

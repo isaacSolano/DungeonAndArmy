@@ -6,6 +6,6 @@ public class Helper {
     }
 
     public int getRandom(int max){
-        return (int) Math.floor(Math.random() * max);
+        return (int) Math.floor(Math.random() * max+1);
     }
 }
