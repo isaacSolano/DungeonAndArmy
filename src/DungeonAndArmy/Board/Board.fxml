@@ -7,15 +7,17 @@
           fx:id="MainPane"
           alignment="center" hgap="10" vgap="10">
 
-    <GridPane fx:id="Board" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <GridPane fx:id="CurrentPlayer" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2"></GridPane>
+
+    <GridPane fx:id="Board" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2">
 
     </GridPane>
 
-    <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="1">
+    <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="1">
         <Button text="Lanzar dados" onAction="#invocarDados" fx:id="dados"/>
     </GridPane>
 
-    <GridPane alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <GridPane alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3">
         <Button onAction="#invocarCamino" fx:id="L" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invocarCamino" fx:id="Cruz" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invocarCamino" fx:id="Z" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
