@@ -7,7 +7,9 @@
           fx:id="MainPane"
           alignment="center" hgap="10" vgap="10">
 
-    <GridPane fx:id="CurrentPlayer" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2"></GridPane>
+    <GridPane alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1"  GridPane.columnSpan="2">
+        <Label fx:id="txtTimer" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="1"></Label>
+    </GridPane>
 
     <GridPane fx:id="Board" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2">
 
@@ -17,7 +19,7 @@
         <Button text="Invoke dices" onAction="#invokeDice" fx:id="dados"/>
     </GridPane>
 
-    <GridPane alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <GridPane fx:id="PathBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
         <Button onAction="#invokePath" fx:id="L" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokePath" fx:id="Cruz" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokePath" fx:id="Z" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />

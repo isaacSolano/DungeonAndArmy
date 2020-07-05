@@ -24,3 +24,7 @@
     -fx-background-color: transparent;
     -fx-cursor: hand;
 }
+
+.d-none{
+    visibility: hidden;
+}

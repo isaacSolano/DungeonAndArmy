@@ -1,51 +1,58 @@
 package DungeonAndArmy.Board;
 
+import DungeonAndArmy.Gestor.Gestor_Path;
 import DungeonAndArmy.Gestor.Gestor_Player;
+
+import DungeonAndArmy.Helper.AlertHelper;
 import DungeonAndArmy.Helper.FileManager;
 import DungeonAndArmy.Helper.Helper;
-import DungeonAndArmy.Player.Player;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import DungeonAndArmy.Helper.Path_Creator;
 
+import DungeonAndArmy.Prototype.iPrototype.aPath;
+import DungeonAndArmy.Player.Player;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Board {
-    public GridPane Board;
-    public Button L;
-    public Button Cruz;
-    public Button Z;
-    public Button P;
-    public Button U;
-    public Button T;
-    public GridPane CurrentPlayer;
+    public GridPane Board, PathBox;
+    public Button L, Cruz, Z, P, U, T;
+    public Label txtTimer;
 
+    private AlertHelper alertHelper = new AlertHelper();
     private Helper helper = new Helper();
     private FileManager fileManager = new FileManager();
-    private Gestor_Player gestor_player = new Gestor_Player();
+    private Path_Creator pathCreator = new Path_Creator();
 
-    private Player playerA;
-    private Player playerB;
+    private Gestor_Player gestor_player = new Gestor_Player();
+    private Gestor_Path gestor_path = new Gestor_Path();
+
+    private Player playerA, playerB;
+    private Integer[] actionPosition = new Integer[2];
 
     private int secondsPassed = 0;
     private Timer timer = new Timer();
 
-
-    public TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            if(secondsPassed >= 5){
-                secondsPassed = 0;
-
-                System.out.println((gestor_player.changePlayer(playerA,playerB)));
-            }
-            secondsPassed++;
-        }
-    };
-
     public void start(){
-        timer.scheduleAtFixedRate(timerTask,1000,1000);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if(secondsPassed >= 10){
+                secondsPassed = 0;
+                gestor_player.changePlayer(playerA, playerB);
+            }
+            txtTimer.setText("Jugador: " + gestor_player.getCurrentPlayer().getId() + ", le quedan: " + (10 - secondsPassed) + " segundos de juego");
+            secondsPassed++;
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     public void initialize(){
@@ -61,8 +68,8 @@ public class Board {
     }
 
     public void createBoard(){
-        for(int y = 0; y < 20; y++){
-            for(int x = 0; x < 20; x++){
+        for(int x = 0; x < 20; x++){
+            for(int y = 0; y < 20; y++){
                 Button btnPosition = new Button("");
                 btnPosition.getStyleClass().add("rows");
                 btnPosition.getStyleClass().add("natural-color");
@@ -76,28 +83,31 @@ public class Board {
     }
 
     public void createBases(){
-        int basePosition1 = helper.getRandom(20);
-        Button Base1 = new Button("X");
+        int basePositionA = helper.getRandom(20);
+        Button Base1 = new Button("A");
         Base1.getStyleClass().add("base");
-        Board.add(Base1, basePosition1, 0);
-        playerA = new Player("A",basePosition1);
+        Board.add(Base1, basePositionA, 0);
+        playerA = new Player("A",basePositionA);
 
-        int basePosition2 = helper.getRandom(20);
-        Button Base2 = new Button("X");
+        int basePositionB = helper.getRandom(20);
+        Button Base2 = new Button("B");
         Base2.getStyleClass().add("base");
-        Board.add(Base2, basePosition2, 21);
-        playerB = new Player("B",basePosition2);
+        Board.add(Base2, basePositionB, 21);
+        playerB = new Player("B",basePositionB);
 
         gestor_player.assingRound(playerA);
         start();
     }
 
     public void getPosition(int x, int y, ActionEvent e){
-        Button Clicked = (Button) e.getSource();
-        Clicked.getStyleClass().add("selected");
-        Clicked.getStyleClass().remove("natural-color");
+        Button btnPosition = (Button) e.getSource();
+        btnPosition.getStyleClass().remove("natural-color");
+        btnPosition.getStyleClass().add("selected");
 
-        System.out.println("Position x: " + x + ", position y: " + y);
+        this.actionPosition[0] = x;
+        this.actionPosition[1] = y;
+
+        PathBox.setVisible(true);
     }
 
     public void invokeDice(ActionEvent e){
@@ -106,9 +116,27 @@ public class Board {
 
     public void invokePath(ActionEvent e){
         Button btnPath = (Button) e.getSource();
-        String idPath = btnPath.getId();
+        Player currPlayer = gestor_player.getCurrentPlayer();
+        int basePositionY = currPlayer.getId() == "A" ? 1 : 20;
 
-        System.out.println(idPath);
-        System.out.println(gestor_player.getCurrentPlayer().toString());
+        if(actionPosition[0] != currPlayer.getBasePosition() || actionPosition[1] != basePositionY){
+            Alert alert = alertHelper.createErr("No se puede crear el camino", "Debe estar conectado a su base");
+
+            alert.showAndWait();
+        }else {
+            ArrayList<String> arrBlocksId = pathCreator.createPath(btnPath.getId(), actionPosition, Board);
+
+            if (arrBlocksId == null) {
+                Alert alert = alertHelper.createErr("No se puede crear el camino", "No hay suficientes espacios");
+
+                alert.showAndWait();
+            } else {
+                aPath path = gestor_path.createNewPath(arrBlocksId, btnPath.getId());
+
+                System.out.println(path.toString());
+            }
+        }
+    //        gestor_player.getCurrentPlayer();
+            PathBox.setVisible(false);
     }
 }
