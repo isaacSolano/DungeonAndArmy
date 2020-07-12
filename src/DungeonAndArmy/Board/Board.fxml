@@ -26,6 +26,8 @@
         <Button onAction="#invokePath" fx:id="P" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokePath" fx:id="U" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokePath" fx:id="T" GridPane.columnIndex="6" GridPane.rowIndex="1" styleClass="btnCamino" />
+
+        <Button onAction="#flipPath" text="Flip" GridPane.columnIndex="7" GridPane.rowIndex="1" styleClass="btnCamino" />
     </GridPane>
 
 </GridPane>

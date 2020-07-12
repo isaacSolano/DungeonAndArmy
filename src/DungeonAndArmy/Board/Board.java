@@ -21,7 +21,6 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Board {
     public GridPane Board, PathBox;
@@ -37,10 +36,12 @@ public class Board {
     private Gestor_Path gestor_path = new Gestor_Path();
 
     private Player playerA, playerB;
-    private Integer[] actionPosition = new Integer[2];
+    private Button btnActionPosition;
 
     private int secondsPassed = 0;
     private Timer timer = new Timer();
+
+    private int pathRotation = 0;
 
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -76,7 +77,8 @@ public class Board {
 
                 int finalX = x+1;
                 int finalY = y+1;
-                btnPosition.setOnAction(e -> getPosition(finalX, finalY, e) );
+                btnPosition.setId(finalY + "_" + finalX);
+                btnPosition.setOnAction(e -> getPosition(finalY, finalX, e) );
                 Board.add(btnPosition, finalX, finalY);
             }
         }
@@ -104,8 +106,9 @@ public class Board {
         btnPosition.getStyleClass().remove("natural-color");
         btnPosition.getStyleClass().add("selected");
 
-        this.actionPosition[0] = x;
-        this.actionPosition[1] = y;
+        System.out.printf(btnPosition.getId());
+
+        btnActionPosition = btnPosition;
 
         PathBox.setVisible(true);
     }
@@ -119,12 +122,13 @@ public class Board {
         Player currPlayer = gestor_player.getCurrentPlayer();
         int basePositionY = currPlayer.getId() == "A" ? 1 : 20;
 
-        if(actionPosition[0] != currPlayer.getBasePosition() || actionPosition[1] != basePositionY){
+//        if(btnActionPosition[0] != currPlayer.getBasePosition() || btnActionPosition[1] != basePositionY){
+        if(false){
             Alert alert = alertHelper.createErr("No se puede crear el camino", "Debe estar conectado a su base");
 
             alert.showAndWait();
         }else {
-            ArrayList<String> arrBlocksId = pathCreator.createPath(btnPath.getId(), actionPosition, Board);
+            ArrayList<String> arrBlocksId = pathCreator.createPath(btnPath.getId(), btnActionPosition, Board, pathRotation);
 
             if (arrBlocksId == null) {
                 Alert alert = alertHelper.createErr("No se puede crear el camino", "No hay suficientes espacios");
@@ -138,5 +142,16 @@ public class Board {
         }
     //        gestor_player.getCurrentPlayer();
             PathBox.setVisible(false);
+    }
+
+    public void flipPath(){
+        pathRotation = pathRotation == 360 ? 90 : pathRotation+90;
+
+        L.setRotate(pathRotation);
+        Cruz.setRotate(pathRotation);
+        Z.setRotate(pathRotation);
+        P.setRotate(pathRotation);
+        U.setRotate(pathRotation);
+        T.setRotate(pathRotation);
     }
 }
