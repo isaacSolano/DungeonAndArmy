@@ -120,8 +120,7 @@ public class Board {
         Player currPlayer = gestor_player.getCurrentPlayer();
         int basePositionY = currPlayer.getId() == "A" ? 1 : 20;
 
-//        if(actionPosition[0] != basePositionY || actionPosition[1] != currPlayer.getBasePosition()){
-        if(false){
+        if(actionPosition[0] != basePositionY || actionPosition[1] != currPlayer.getBasePosition()){
             Alert alert = alertHelper.createErr("No se puede crear el camino", "Debe estar conectado a su base");
 
             alert.showAndWait();

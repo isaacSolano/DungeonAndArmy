@@ -27,7 +27,7 @@ public class Gestor_Path {
 
         return updateClone(shape, type);
     }
-    
+
     /**
      * @param shape The shape that will be included on the path.
      * @param type the type of shape.
