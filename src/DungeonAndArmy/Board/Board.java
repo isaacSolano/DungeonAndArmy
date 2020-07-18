@@ -1,15 +1,15 @@
 package DungeonAndArmy.Board;
 
+import DungeonAndArmy.Bridge.Abstract.iShape;
 import DungeonAndArmy.Gestor.Gestor_Path;
 import DungeonAndArmy.Gestor.Gestor_Player;
 
 import DungeonAndArmy.Helper.AlertHelper;
 import DungeonAndArmy.Helper.FileManager;
 import DungeonAndArmy.Helper.Helper;
-import DungeonAndArmy.Helper.Path_Creator;
 
 import DungeonAndArmy.Prototype.iPrototype.aPath;
-import DungeonAndArmy.Player.Player;
+import DungeonAndArmy.Singleton.Round.Player;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,7 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 import java.util.Timer;
 
 public class Board {
@@ -30,13 +29,12 @@ public class Board {
     private AlertHelper alertHelper = new AlertHelper();
     private Helper helper = new Helper();
     private FileManager fileManager = new FileManager();
-    private Path_Creator pathCreator = new Path_Creator();
 
     private Gestor_Player gestor_player = new Gestor_Player();
     private Gestor_Path gestor_path = new Gestor_Path();
 
     private Player playerA, playerB;
-    private Button btnActionPosition;
+    private Integer[] actionPosition = new Integer[2];
 
     private int secondsPassed = 0;
     private Timer timer = new Timer();
@@ -106,9 +104,8 @@ public class Board {
         btnPosition.getStyleClass().remove("natural-color");
         btnPosition.getStyleClass().add("selected");
 
-        System.out.printf(btnPosition.getId());
-
-        btnActionPosition = btnPosition;
+        actionPosition[0] = Integer.valueOf( btnPosition.getId().split("_")[0] );
+        actionPosition[1] = Integer.valueOf( btnPosition.getId().split("_")[1] );
 
         PathBox.setVisible(true);
     }
@@ -117,31 +114,35 @@ public class Board {
         System.out.println("Invoking dices");
     }
 
+
     public void invokePath(ActionEvent e){
         Button btnPath = (Button) e.getSource();
         Player currPlayer = gestor_player.getCurrentPlayer();
         int basePositionY = currPlayer.getId() == "A" ? 1 : 20;
 
-//        if(btnActionPosition[0] != currPlayer.getBasePosition() || btnActionPosition[1] != basePositionY){
+//        if(actionPosition[0] != basePositionY || actionPosition[1] != currPlayer.getBasePosition()){
         if(false){
             Alert alert = alertHelper.createErr("No se puede crear el camino", "Debe estar conectado a su base");
 
             alert.showAndWait();
         }else {
-            ArrayList<String> arrBlocksId = pathCreator.createPath(btnPath.getId(), btnActionPosition, Board, pathRotation);
+            iShape shape = gestor_path.createShape(actionPosition, pathRotation, btnPath.getId(), Board);
 
-            if (arrBlocksId == null) {
+            if (shape == null) {
                 Alert alert = alertHelper.createErr("No se puede crear el camino", "No hay suficientes espacios");
-
                 alert.showAndWait();
-            } else {
-                aPath path = gestor_path.createNewPath(arrBlocksId, btnPath.getId());
 
-                System.out.println(path.toString());
+                Button btnActionPosition = (Button) Board.getScene().lookup("#" + actionPosition[0] + "_" + actionPosition[1]);
+                btnActionPosition.getStyleClass().remove("selected");
+                btnActionPosition.getStyleClass().add("natural-color");
+            } else {
+                aPath path = gestor_path.createNewPath(shape, btnPath.getId());
+                System.out.println(path.getShape().getArrCoords());
             }
         }
-    //        gestor_player.getCurrentPlayer();
-            PathBox.setVisible(false);
+
+        gestor_player.getCurrentPlayer().getBasePosition();
+        PathBox.setVisible(false);
     }
 
     public void flipPath(){

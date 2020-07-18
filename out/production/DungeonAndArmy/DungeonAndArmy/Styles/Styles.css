@@ -3,8 +3,8 @@
 }
 
 .rows{
-    -fx-pref-width: 25;
-    -fx-pref-height: 25;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
     -fx-border-color: #bdc3c7;
     -fx-cursor: hand;
 }

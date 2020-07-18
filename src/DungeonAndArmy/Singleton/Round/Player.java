@@ -1,4 +1,4 @@
-package DungeonAndArmy.Player;
+package DungeonAndArmy.Singleton.Round;
 
 public class Player {
 

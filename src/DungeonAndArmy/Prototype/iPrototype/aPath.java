@@ -1,19 +1,19 @@
 package DungeonAndArmy.Prototype.iPrototype;
 
-import java.util.ArrayList;
+import DungeonAndArmy.Bridge.Abstract.iShape;
 
 public abstract class aPath {
-    private ArrayList<String> arrBlocksId;
+    private iShape shape;
     private String type;
 
     public abstract aPath clone();
 
-    public ArrayList<String> getArrBlocksId() {
-        return arrBlocksId;
+    public iShape getShape() {
+        return shape;
     }
 
-    public void setArrBlocksId(ArrayList<String> arrBlocksId) {
-        this.arrBlocksId = arrBlocksId;
+    public void setShape(iShape shape) {
+        this.shape = shape;
     }
 
     public String getType() {
@@ -27,9 +27,9 @@ public abstract class aPath {
     public String toString(){
         String string = "Block's id: ";
 
-        for(String blockId : arrBlocksId){
-            string += blockId + ", ";
-        }
+//        for(String blockId : arrBlocksId){
+//            string += blockId + ", ";
+//        }
 
         string += "for the path type: " + this.getType();
 
