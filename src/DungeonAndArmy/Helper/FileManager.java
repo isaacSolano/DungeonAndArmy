@@ -8,12 +8,21 @@ public class FileManager {
     private ArrayList<ImageView> arrImages = new ArrayList<>();
 
     public FileManager(){
-        arrImages.add( new ImageView("Media/L.png") );
-        arrImages.add( new ImageView("Media/Cruz.png") );
-        arrImages.add( new ImageView("Media/Z.png") );
-        arrImages.add( new ImageView("Media/P.png") );
-        arrImages.add( new ImageView("Media/U.png") );
-        arrImages.add( new ImageView("Media/T.png") );
+        arrImages.add( resizeImage("Media/L.png") );
+        arrImages.add( resizeImage("Media/Cruz.png") );
+        arrImages.add( resizeImage("Media/Z.png") );
+        arrImages.add( resizeImage("Media/P.png") );
+        arrImages.add( resizeImage("Media/U.png") );
+        arrImages.add( resizeImage("Media/T.png") );
+    }
+
+    public ImageView resizeImage(String url){
+        ImageView image = new ImageView(url);
+
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+
+        return image;
     }
 
     public ArrayList<ImageView> getImages(){

@@ -1,7 +1,7 @@
 package DungeonAndArmy.Gestor;
 
-import DungeonAndArmy.Player.Player;
-import DungeonAndArmy.Singleton_Round.Round;
+import DungeonAndArmy.Singleton.Round.Player;
+import DungeonAndArmy.Singleton.Round.Round;
 
 public class Gestor_Player {
 

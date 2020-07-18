@@ -1,6 +1,4 @@
-package DungeonAndArmy.Singleton_Round;
-
-import DungeonAndArmy.Player.Player;
+package DungeonAndArmy.Singleton.Round;
 
 public class Round {
     private static Player player;
