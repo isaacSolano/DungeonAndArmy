@@ -1,6 +1,7 @@
 package DungeonAndArmy.Board;
 
 import DungeonAndArmy.Bridge.Abstract.iShape;
+import DungeonAndArmy.Dice.Manager.DiceManager;
 import DungeonAndArmy.Gestor.Gestor_Path;
 import DungeonAndArmy.Gestor.Gestor_Player;
 
@@ -25,6 +26,7 @@ public class Board {
     public GridPane Board, PathBox;
     public Button L, Cruz, Z, P, U, T;
     public Label txtTimer;
+    public Label summonCount;
 
     private AlertHelper alertHelper = new AlertHelper();
     private Helper helper = new Helper();
@@ -32,6 +34,7 @@ public class Board {
 
     private Gestor_Player gestor_player = new Gestor_Player();
     private Gestor_Path gestor_path = new Gestor_Path();
+    private DiceManager diceManager = new DiceManager();
 
     private Player playerA, playerB;
     private Integer[] actionPosition = new Integer[2];
@@ -47,6 +50,7 @@ public class Board {
                 secondsPassed = 0;
                 gestor_player.changePlayer(playerA, playerB);
             }
+            summonCount.setText("Summoning Dice: " + diceManager.getDiceCount(gestor_player.getCurrentPlayer().getId()));
             txtTimer.setText("Jugador: " + gestor_player.getCurrentPlayer().getId() + ", le quedan: " + (10 - secondsPassed) + " segundos de juego");
             secondsPassed++;
         }));
@@ -111,7 +115,8 @@ public class Board {
     }
 
     public void invokeDice(ActionEvent e){
-        System.out.println("Invoking dices");
+        diceManager.genDie("summon",gestor_player.getCurrentPlayer().getId());
+        System.out.println("Invoking dice");
     }
 
 

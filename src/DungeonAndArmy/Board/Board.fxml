@@ -16,7 +16,8 @@
     </GridPane>
 
     <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="1">
-        <Button text="Invoke dices" onAction="#invokeDice" fx:id="dados"/>
+        <Button text="Invoke dice" onAction="#invokeDice" fx:id="dados"/>
+        <Label fx:id="summonCount" GridPane.rowIndex="3">Summoning Dice</Label>
     </GridPane>
 
     <GridPane fx:id="PathBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">

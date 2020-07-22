@@ -4,7 +4,7 @@ import DungeonAndArmy.Dice.iPrototype.Die;
 
 public class SummoningDie extends Die {
     public SummoningDie(int pFaceAmount, String pColor) {
-        this.type = "Invocacion";
+        this.type = "Summon";
         this.faces = new String[pFaceAmount];
         for (int i = 1; i < faces.length; i++) {
             this.faces[i] = "" + i + "";
