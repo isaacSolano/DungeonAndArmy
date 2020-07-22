@@ -4,7 +4,7 @@ import DungeonAndArmy.Dice.iPrototype.Die;
 
 public class ActionDie extends Die {
     public ActionDie(int pFaceAmount, String pColor) {
-        this.type = "Accion";
+        this.type = "Action";
         this.faces = new String[pFaceAmount];
         for (int i = 1; i < faces.length; i++) {
             this.faces[i] = "" + i + "";
