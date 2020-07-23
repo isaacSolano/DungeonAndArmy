@@ -1,12 +1,11 @@
 package DungeonAndArmy.Bridge.Abstract;
 
-import DungeonAndArmy.Bridge.Actions.Activate;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
 public abstract class iShape {
-    private iAction action = new Activate();
+    private iAction action;
     private ArrayList<String> arrCoords = new ArrayList<>();
 
     public iAction getAction() {
@@ -29,8 +28,12 @@ public abstract class iShape {
         arrCoords.add(coord);
     }
 
-    public void paint(GridPane Board){
-        action.paint(Board, getArrCoords() );
+    public boolean paint(GridPane Board){
+        return action.paint(Board, getArrCoords() );
+    }
+
+    public void addMonster(GridPane Board, String id){
+        action.addMonster(Board, id);
     }
 
     public abstract boolean createShape(Integer[] actionPosition, int pathRotation);

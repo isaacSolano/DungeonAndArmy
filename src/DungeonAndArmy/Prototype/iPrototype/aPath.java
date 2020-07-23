@@ -25,14 +25,6 @@ public abstract class aPath {
     }
 
     public String toString(){
-        String string = "Block's id: ";
-
-//        for(String blockId : arrBlocksId){
-//            string += blockId + ", ";
-//        }
-
-        string += "for the path type: " + this.getType();
-
-        return string;
+        return "Block's id: " + getShape().getArrCoords() + ", for the path type: " + this.getType();
     }
 }

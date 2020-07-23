@@ -15,8 +15,9 @@
 
     </GridPane>
 
-    <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="1">
-        <Button text="Invoke dices" onAction="#invokeDice" fx:id="dados"/>
+    <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.columnSpan="2">
+        <Button text="Invocar dados" alignment="center" onAction="#invokeDice" fx:id="dados" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnAction"/>
+        <Button text="Invocar monstruos" alignment="center" onAction="#showMonsterPanel" fx:id="monsters" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btnAction" />
     </GridPane>
 
     <GridPane fx:id="PathBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
@@ -28,6 +29,36 @@
         <Button onAction="#invokePath" fx:id="T" GridPane.columnIndex="6" GridPane.rowIndex="1" styleClass="btnCamino" />
 
         <Button onAction="#flipPath" text="Flip" GridPane.columnIndex="7" GridPane.rowIndex="1" styleClass="btnCamino" />
+    </GridPane>
+
+    <GridPane fx:id="MonsterBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+        <Button onAction="#invokeInfantery" fx:id="Infantry" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeArtillery" fx:id="Artillery" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeTanks" fx:id="Tanks" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
+    </GridPane>
+
+    <GridPane fx:id="InfantryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+        <Button onAction="#invokeMonster" fx:id="Arryn" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Arthur" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Brienne" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Bronn" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Obara" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnCamino" />
+    </GridPane>
+
+    <GridPane fx:id="ArtilleryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+        <Button onAction="#invokeMonster" fx:id="Aerys" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Boko" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Bora" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Glognar" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Helms" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnCamino" />
+    </GridPane>
+
+    <GridPane fx:id="TankBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+        <Button onAction="#invokeMonster" fx:id="Castlely" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Forerunner" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Rhageon" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Siddon" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeMonster" fx:id="Varys" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnCamino" />
     </GridPane>
 
 </GridPane>

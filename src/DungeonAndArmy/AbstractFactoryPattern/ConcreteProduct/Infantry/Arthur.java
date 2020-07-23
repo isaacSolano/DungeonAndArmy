@@ -1,13 +1,13 @@
 package DungeonAndArmy.AbstractFactoryPattern.ConcreteProduct.Infantry;
 
 import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import javafx.scene.image.ImageView;
 
 public class Arthur implements Soldier {
     private static final String category = "Infantería";
-    private static final String imgUrl = "Media/Army/Arthur";
+    private ImageView image = new ImageView("Media/Army/Arthur.png");
 
-
-    private int id;
+    private String coords;
     private int move;
     private int life;
     private int attack;
@@ -20,8 +20,8 @@ public class Arthur implements Soldier {
     public Arthur() {
     }
 
-    public Arthur(int id, int move, int life, int attack, int defense, int specialAttack) {
-        this.id = id;
+    public Arthur(String coords, int move, int life, int attack, int defense, int specialAttack) {
+        this.coords = coords;
         this.move = move;
         this.life = life;
         this.attack = attack;
@@ -34,14 +34,6 @@ public class Arthur implements Soldier {
      */
     public static String getCategory() {
         return category;
-    }
-
-    public static String getImgUrl() {
-        return imgUrl;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getMove() {
@@ -104,5 +96,15 @@ public class Arthur implements Soldier {
     @Override
     public void launchSpecialAttack() {
 
+    }
+
+    @Override
+    public void setCoords(String coords) {
+        this.coords = coords;
+    }
+
+    @Override
+    public ImageView getImage() {
+        return image;
     }
 }

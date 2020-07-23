@@ -1,12 +1,13 @@
 package DungeonAndArmy.AbstractFactoryPattern.ConcreteProduct.Artillery;
 
 import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import javafx.scene.image.ImageView;
 
 public class Boko implements Soldier {
     private static final String category = "Artillería";
-    private static final String imgUrl = "Media/Army/Boko";
+    private ImageView image = new ImageView("Media/Army/Boko.png");
 
-    private int id;
+    private String coords;
     private int move;
     private int life;
     private int attack;
@@ -19,8 +20,8 @@ public class Boko implements Soldier {
     public Boko() {
     }
 
-    public Boko(int id, int move, int life, int attack, int defense, int specialAttack) {
-        this.id = id;
+    public Boko(String coords, int move, int life, int attack, int defense, int specialAttack) {
+        this.coords = coords;
         this.move = move;
         this.life = life;
         this.attack = attack;
@@ -35,13 +36,8 @@ public class Boko implements Soldier {
         return category;
     }
 
-    public static String getImgUrl() {
-
-        return imgUrl;
-    }
-
-    public int getId() {
-        return id;
+    public String getCoords() {
+        return coords;
     }
 
     public int getMove() {
@@ -101,5 +97,15 @@ public class Boko implements Soldier {
 
     @Override
     public void launchSpecialAttack() {
+    }
+
+    @Override
+    public void setCoords(String coords) {
+        this.coords = coords;
+    }
+
+    @Override
+    public ImageView getImage() {
+        return image;
     }
 }

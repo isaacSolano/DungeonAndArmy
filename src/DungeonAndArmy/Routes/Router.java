@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Router {
     public void navigateBoard(ActionEvent event) throws IOException {
         Parent board = FXMLLoader.load(getClass().getResource("/DungeonAndArmy/Board/Board.fxml"));
-        Scene boradScene = new Scene(board, 800, 775);
+        Scene boradScene = new Scene(board, 1300, 850);
 
         Stage window = (Stage)((Node) event.getSource()).getScene().getWindow();
         window.setTitle("Dungeon and Army");
