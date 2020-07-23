@@ -3,10 +3,10 @@ package DungeonAndArmy.Gestor;
 import DungeonAndArmy.Singleton.Round.Player;
 import DungeonAndArmy.Singleton.Round.Round;
 
-public class Gestor_Player {
+public class Manager_Player {
 
     Round currentRound;
-    public Gestor_Player() {
+    public Manager_Player() {
     }
 
     public String assingRound(Player player){

@@ -1,12 +1,13 @@
 package DungeonAndArmy.AbstractFactoryPattern.ConcreteProduct.Artillery;
 
 import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import javafx.scene.image.ImageView;
 
 public class Aerys implements Soldier {
     private static final String category = "Artillería";
-    private static final String imgUrl = "Media/Army/Aerys";
+    private ImageView image = new ImageView("Media/Army/Aerys.png");
 
-    private int id;
+    private String coords;
     private int move;
     private int life;
     private int attack;
@@ -19,8 +20,8 @@ public class Aerys implements Soldier {
     public Aerys() {
         }
 
-    public Aerys(int id, int move, int life, int attack, int defense, int specialAttack) {
-            this.id = id;
+    public Aerys(String coords, int move, int life, int attack, int defense, int specialAttack) {
+            this.coords = coords;
             this.move = move;
             this.life = life;
             this.attack = attack;
@@ -36,10 +37,8 @@ public class Aerys implements Soldier {
             return category;
     }
 
-    public static String getImgUrl() { return imgUrl; }
-
-    public int getId() {
-        return id;
+    public String getCoords() {
+        return coords;
     }
 
     public int getMove() {
@@ -101,4 +100,12 @@ public class Aerys implements Soldier {
     @Override
     public void launchSpecialAttack() {
     }
+
+    @Override
+    public void setCoords(String coords) {
+        this.coords = coords;
+    }
+
+    @Override
+    public ImageView getImage() { return image; }
 }

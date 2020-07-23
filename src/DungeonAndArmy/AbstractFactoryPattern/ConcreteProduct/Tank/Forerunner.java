@@ -1,12 +1,13 @@
 package DungeonAndArmy.AbstractFactoryPattern.ConcreteProduct.Tank;
 
 import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import javafx.scene.image.ImageView;
 
 public class Forerunner implements Soldier {
     private static final String category = "Tanque";
-    private static final String imgUrl = "Media/Army/Forerunner";
+    private ImageView image = new ImageView("Media/Army/Forerunner.png");
 
-    private int id;
+    private String coords;
     private int move;
     private int life;
     private int attack;
@@ -19,8 +20,8 @@ public class Forerunner implements Soldier {
     public Forerunner() {
     }
 
-    public Forerunner(int id, int move, int life, int attack, int defense, int specialAttack) {
-        this.id = id;
+    public Forerunner(String coords, int move, int life, int attack, int defense, int specialAttack) {
+        this.coords = coords;
         this.move = move;
         this.life = life;
         this.attack = attack;
@@ -35,12 +36,8 @@ public class Forerunner implements Soldier {
         return category;
     }
 
-    public static String getImgUrl() {
-        return imgUrl;
-    }
-
-    public int getId() {
-        return id;
+    public String getCoords() {
+        return coords;
     }
 
     public int getMove() {
@@ -103,5 +100,15 @@ public class Forerunner implements Soldier {
     @Override
     public void launchSpecialAttack() {
 
+    }
+
+    @Override
+    public void setCoords(String coords) {
+        this.coords = coords;
+    }
+
+    @Override
+    public ImageView getImage() {
+        return image;
     }
 }

@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryWindow) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Index/Index.fxml"));
         primaryWindow.setTitle("Dungeon and Army");
-        primaryWindow.setScene(new Scene(root, 800, 775));
+        primaryWindow.setScene(new Scene(root, 1300, 850));
         primaryWindow.show();
     }
 
