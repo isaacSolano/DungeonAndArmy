@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Forerunner implements Soldier {
     private static final String category = "Tanque";
+    private final String name = "Forerunner";
     private ImageView image = new ImageView("Media/Army/Forerunner.png");
 
     private String coords;

@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Arthur implements Soldier {
     private static final String category = "Infantería";
+    private final String name = "Arthur";
     private ImageView image = new ImageView("Media/Army/Arthur.png");
 
     private String coords;
@@ -34,6 +35,10 @@ public class Arthur implements Soldier {
      */
     public static String getCategory() {
         return category;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getMove() {

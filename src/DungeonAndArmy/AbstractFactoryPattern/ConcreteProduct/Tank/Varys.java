@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Varys implements Soldier {
     private static final String category = "Tanque";
+    private final String name = "Varys";
     private ImageView image = new ImageView("Media/Army/Varys.png");
 
     private String coords;
