@@ -18,7 +18,7 @@ public class FileManager {
 
         arrImagesMonsters.add( resizeImage("Media/Army/Aerys.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Arryn.png") );
-        arrImagesMonsters.add( resizeImage("Media/Army/Arthur.png") );
+        arrImagesMonsters.add( resizeImage("Media/Army/Arthur.jpg") );
         arrImagesMonsters.add( resizeImage("Media/Army/Boko.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Bora.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Brienne.png") );

@@ -56,8 +56,6 @@ public class Manager_Path {
     public iShape createShape(Integer[] actionPosition, int pathRotation, String type, GridPane Board, ArrayList<aPath> pathsA, ArrayList<aPath> pathsB, Soldier soldier){
         iShape createdShape = null;
 
-        System.out.println(soldier);
-
         if( verifyNearPaths(pathsA, pathsB, actionPosition) ){
             switch (type) {
                 case "L":

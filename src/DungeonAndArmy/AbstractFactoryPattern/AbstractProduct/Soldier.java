@@ -12,4 +12,5 @@ public interface Soldier {
     public void launchSpecialAttack();
     void setCoords(String coords);
     ImageView getImage();
+    String getCoords();
 }

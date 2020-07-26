@@ -5,9 +5,15 @@ import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Artillery.*;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Infantry.*;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Tank.*;
+import DungeonAndArmy.Bridge.Actions.AddMonster;
+import DungeonAndArmy.Bridge.Actions.RemoveMonster;
+import DungeonAndArmy.Prototype.iPrototype.aPath;
+import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
 
 public class Manager_Monsters {
-    public Soldier createMonster(String type){
+    public Soldier createMonster(String type, ArrayList<Soldier> arrCreatedSoldiers){
         Army ftArmy;
         Soldier createdSoldier = null;
 
@@ -88,10 +94,59 @@ public class Manager_Monsters {
                 break;
         }
 
-        return createdSoldier;
+        if( checkExistance(createdSoldier, arrCreatedSoldiers) ){
+            return null;
+        }else{
+            return createdSoldier;
+        }
     }
 
     public Soldier createFactory(Army ftArmy){
         return ftArmy.createSoldier();
+    }
+
+    public boolean checkExistance(Soldier createdSoldier, ArrayList<Soldier> arrCreatedSoldiers){
+        boolean exists = false;
+
+        for(Soldier soldier : arrCreatedSoldiers){
+            if(soldier.getClass().equals( createdSoldier.getClass() )){
+                exists = true;
+            }
+        }
+
+        return exists;
+    }
+
+    public Soldier getMonster(String id, ArrayList<Soldier> arrCreatedMonsters){
+        Soldier monsterFound = null;
+
+        for(Soldier soldier : arrCreatedMonsters){
+            if(soldier.getCoords().equals(id)){
+                monsterFound = soldier;
+            }
+        }
+
+        return monsterFound;
+    }
+
+    public boolean moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board){
+        boolean moved = false;
+        String originCoords = soldier.getCoords();
+
+        for(aPath path : arrCreatedPaths){
+            for(String coords : path.getShape().getArrCoords() ){
+                if(coords.equals( soldier.getCoords() )){
+                    path.getShape().setAction( new AddMonster(soldier) );
+                    if( path.getShape().addMonster(Board, newPosition) ){
+                        path.getShape().setAction( new RemoveMonster() );
+                        path.getShape().removeMonster(Board, originCoords);
+
+                        moved = true;
+                    }
+                }
+            }
+        }
+
+        return moved;
     }
 }

@@ -1,6 +1,5 @@
 package DungeonAndArmy.Bridge.Actions;
 
-import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
 import DungeonAndArmy.Bridge.Abstract.iAction;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -34,7 +33,12 @@ public class Activate implements iAction {
     }
 
     @Override
-    public void addMonster(GridPane Borad, String id) {
+    public boolean addMonster(GridPane Board, String id) {
+        return false;
+    }
+
+    @Override
+    public void removeMonster(GridPane Board, String coord) {
 
     }
 }

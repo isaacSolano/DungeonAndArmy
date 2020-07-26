@@ -45,14 +45,17 @@ public class Board {
     private Timer timer = new Timer();
 
     private int pathRotation = 0;
-    private Soldier gSoldier = null;
+    private Soldier bAddMonster = null;
+    private Soldier moveSoldier = null;
+    private boolean bMoveMonsterInit = false;
+    private boolean bMoveMonsterEnd = false;
 
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if(secondsPassed >= 10){
                 secondsPassed = 0;
                 manager_player.changePlayer(playerA, playerB);
-                gSoldier = null;
+                bAddMonster = null;
             }
             txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (10 - secondsPassed) + " segundos de juego");
             secondsPassed++;
@@ -129,11 +132,52 @@ public class Board {
 
     public void getPosition(ActionEvent e){
         Button btnPosition = (Button) e.getSource();
+
+        if(bMoveMonsterEnd){
+            moveMonsterEnd(btnPosition.getId());
+        }
+
+        if (bMoveMonsterInit) {
+            moveMonsterInit(btnPosition.getId());
+        }
+
+        if(bAddMonster != null) {
+            addMonster(btnPosition);
+        }
+    }
+
+    public void moveMonsterInit(String currCoords){
+        moveSoldier = manager_monsters.getMonster( currCoords, manager_player.getCurrentPlayer().getArrMonsters() );
+
+        if(moveSoldier == null){
+            Alert alert = alertHelper.createErr("No se encontro el monstruo", "No existe un monstruo en su armada en la posicion indicada");
+            alert.showAndWait();
+        }else {
+            Alert alert = alertHelper.createInfo("Destino", "Seleccione donde desea ubicar el monstruo");
+            alert.showAndWait();
+
+            bMoveMonsterEnd = true;
+            bMoveMonsterInit = false;
+        }
+    }
+
+    public void moveMonsterEnd(String coords){
+        if( manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board ) ){
+            System.out.println("Done");
+        }else{
+            Alert alert = alertHelper.createErr("No se puede mover el monstruo", "Necesita colocarlo sobre un camino");
+            alert.showAndWait();
+        }
+
+        bMoveMonsterEnd = false;
+    }
+
+    public void addMonster(Button btnPosition){
         btnPosition.getStyleClass().remove("natural-color");
         btnPosition.getStyleClass().add("selected");
 
-        actionPosition[0] = Integer.valueOf( btnPosition.getId().split("_")[0] );
-        actionPosition[1] = Integer.valueOf( btnPosition.getId().split("_")[1] );
+        actionPosition[0] = Integer.valueOf(btnPosition.getId().split("_")[0]);
+        actionPosition[1] = Integer.valueOf(btnPosition.getId().split("_")[1]);
 
         PathBox.setVisible(true);
     }
@@ -146,10 +190,25 @@ public class Board {
         MonsterBox.setVisible(true);
     }
 
+    public void showMoveAlert(){
+        if (manager_player.getCurrentPlayer().getArrMonsters().size() != 0) {
+            bMoveMonsterInit = true;
+            Alert alert = alertHelper.createInfo("Mover monstruo", "Seleccione el monstruo que desea mover");
+
+            alert.showAndWait();
+        }
+    }
+
     public void invokeMonster(ActionEvent e){
         Button btnMonster = (Button) e.getSource();
 
-        gSoldier = manager_monsters.createMonster( btnMonster.getId() );
+        bAddMonster = manager_monsters.createMonster( btnMonster.getId(), manager_player.getCurrentPlayer().getArrMonsters() );
+
+        if(bAddMonster == null){
+            Alert alert = alertHelper.createErr("No se puede crear el monstruo", "Ya esta listado en su ejercito");
+
+            alert.showAndWait();
+        }
 
         InfantryBox.setVisible(false);
         ArtilleryBox.setVisible(false);
@@ -180,14 +239,14 @@ public class Board {
         btnActionPosition.getStyleClass().remove("selected");
         btnActionPosition.getStyleClass().add("natural-color");
 
-        if(gSoldier == null){
+        if(bAddMonster == null){
             Alert alert = alertHelper.createErr("No hay un monstruo", "Seleccione un monstruo para continuar");
             alert.showAndWait();
         }else if(manager_player.getCurrentPlayer().getArrPaths().size() == 0 && (actionPosition[0] != basePositionY || actionPosition[1] != currPlayer.getBasePosition()) ){
             Alert alert = alertHelper.createErr("No se puede crear el camino", "Debe estar conectado a su base");
             alert.showAndWait();
         }else {
-            iShape shape = manager_path.createShape(actionPosition, pathRotation, btnPath.getId(), Board, playerA.getArrPaths(), playerB.getArrPaths(), gSoldier);
+            iShape shape = manager_path.createShape(actionPosition, pathRotation, btnPath.getId(), Board, playerA.getArrPaths(), playerB.getArrPaths(), bAddMonster);
 
             if (shape == null && manager_player.getCurrentPlayer().getArrPaths().size() != 0) {
                 Alert alert = alertHelper.createErr("No se puede crear el camino", "No hay suficientes espacios o no esta conectado a otros");
@@ -195,12 +254,9 @@ public class Board {
             } else {
                 aPath path = manager_path.createNewPath(shape, btnPath.getId());
                 manager_player.getCurrentPlayer().addPath( path );
-                manager_player.getCurrentPlayer().addMonster( gSoldier );
+                manager_player.getCurrentPlayer().addMonster(bAddMonster);
 
-                gSoldier = null;
-
-                System.out.println( manager_player.getCurrentPlayer().getArrPaths() );
-                System.out.println( manager_player.getCurrentPlayer().getArrMonsters() );
+                bAddMonster = null;
             }
         }
 

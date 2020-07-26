@@ -21,13 +21,25 @@ public class AddMonster implements iAction {
     }
 
     @Override
-    public void addMonster(GridPane Board, String id) {
-        soldier.setCoords(id);
-        ImageView monsterImage = soldier.getImage();
-        monsterImage.setFitWidth(20);
-        monsterImage.setFitHeight(20);
-
+    public boolean addMonster(GridPane Board, String id) {
         Button btn = (Button) Board.getScene().lookup("#" + id);
-        btn.setGraphic( monsterImage );
+        boolean added = false;
+
+        if(btn.getStyleClass().contains("selected")){
+            soldier.setCoords(id);
+            ImageView monsterImage = soldier.getImage();
+            monsterImage.setFitWidth(20);
+            monsterImage.setFitHeight(20);
+
+            btn.setGraphic( monsterImage );
+            added = true;
+        }
+
+        return added;
+    }
+
+    @Override
+    public void removeMonster(GridPane Board, String coord) {
+
     }
 }

@@ -21,4 +21,13 @@ public class AlertHelper {
 
         return alert;
     }
+
+    public Alert createInfo(String header, String body){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(header);
+        alert.setContentText(body);
+
+        return alert;
+    }
 }

@@ -32,8 +32,12 @@ public abstract class iShape {
         return action.paint(Board, getArrCoords() );
     }
 
-    public void addMonster(GridPane Board, String id){
-        action.addMonster(Board, id);
+    public boolean addMonster(GridPane Board, String id){
+        return action.addMonster(Board, id);
+    }
+
+    public void removeMonster(GridPane Board, String coords){
+        action.removeMonster(Board, coords);
     }
 
     public abstract boolean createShape(Integer[] actionPosition, int pathRotation);

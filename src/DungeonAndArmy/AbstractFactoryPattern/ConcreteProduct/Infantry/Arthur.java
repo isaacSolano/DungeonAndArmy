@@ -112,4 +112,9 @@ public class Arthur implements Soldier {
     public ImageView getImage() {
         return image;
     }
+
+    @Override
+    public String getCoords() {
+        return this.coords;
+    }
 }
