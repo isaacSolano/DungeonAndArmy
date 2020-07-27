@@ -17,7 +17,7 @@
 
     <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.columnSpan="2">
         <Button text="Invocar dados" alignment="center" onAction="#invokeDice" fx:id="dados" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnAction"/>
-        <Button text="Invocar monstruos" alignment="center" onAction="#showMonsterPanel" fx:id="monsters" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btnAction" />
+        <Button text="Invocar monstruos" alignment="center" onAction="#showMonsterBox" fx:id="monsters" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btnAction" />
         <Button text="Mover monstruo" alignment="center" onAction="#showMoveAlert" fx:id="movement" GridPane.columnIndex="2" GridPane.rowIndex="3" styleClass="btnAction" />
     </GridPane>
 
@@ -32,7 +32,7 @@
         <Button onAction="#flipPath" text="Flip" GridPane.columnIndex="7" GridPane.rowIndex="1" styleClass="btnCamino" />
     </GridPane>
 
-    <GridPane fx:id="MonsterBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+    <GridPane fx:id="CategoryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
         <Button onAction="#invokeInfantery" fx:id="Infantry" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokeArtillery" fx:id="Artillery" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Button onAction="#invokeTanks" fx:id="Tanks" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />

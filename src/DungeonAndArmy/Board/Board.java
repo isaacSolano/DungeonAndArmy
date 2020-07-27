@@ -24,7 +24,7 @@ import javafx.util.Duration;
 import java.util.Timer;
 
 public class Board {
-    public GridPane Board, PathBox, MonsterBox, InfantryBox, ArtilleryBox, TankBox;
+    public GridPane Board, PathBox, CategoryBox, InfantryBox, ArtilleryBox, TankBox;
     public Button L, Cruz, Z, P, U, T;
     public Button Aerys, Arryn, Arthur, Boko, Bora, Brienne, Bronn, Castlely, Forerunner, Glognar, Helms, Obara, Rhageon, Siddon, Varys;
     public Button Infantry, Artillery, Tanks;
@@ -50,6 +50,9 @@ public class Board {
     private boolean bMoveMonsterInit = false;
     private boolean bMoveMonsterEnd = false;
 
+    /****************************************************************************
+     * Function which will initiate the timer needed to count the rounds.
+     ****************************************************************************/
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if(secondsPassed >= 10){
@@ -64,6 +67,10 @@ public class Board {
         timeline.play();
     }
 
+    /****************************************************************************
+     * Default function which will be runned once the view is loaded,
+     * will be the reponsible of loading the required graphic components.
+     ****************************************************************************/
     public void initialize(){
         createBoard();
         createBases();
@@ -97,6 +104,10 @@ public class Board {
         Tanks.setGraphic( fileManager.getArrImagesMonsters().get(17) );
     }
 
+    /****************************************************************************
+     * Function which will create the main board, provide the required
+     * id's for the different buttons and classes for the appropriate look of each element.
+     ****************************************************************************/
     public void createBoard(){
         for(int x = 0; x < 20; x++){
             for(int y = 0; y < 20; y++){
@@ -113,6 +124,11 @@ public class Board {
         }
     }
 
+    /****************************************************************************
+     * Function which will create the bases and the Players with it's
+     * correspondent base position, using the Helper class will generate random location
+     * for each of the bases.
+     ****************************************************************************/
     public void createBases(){
         int basePositionA = helper.getRandom(20);
         Button Base1 = new Button("A");
@@ -130,6 +146,11 @@ public class Board {
         start();
     }
 
+    /****************************************************************************
+     * Function that will be triggered once a button(inside the board) is clicked,
+     * will complete different verifications to provide the final functionality.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void getPosition(ActionEvent e){
         Button btnPosition = (Button) e.getSource();
 
@@ -146,6 +167,11 @@ public class Board {
         }
     }
 
+    /****************************************************************************
+     * Function that will be triggered after a button on the board is selected,
+     * here the position of the button clicked will be checked and the monster on it will be obtained to be moved.
+     * @param currCoords The current coords of the click event(from where the monster will be obtained).
+     ****************************************************************************/
     public void moveMonsterInit(String currCoords){
         moveSoldier = manager_monsters.getMonster( currCoords, manager_player.getCurrentPlayer().getArrMonsters() );
 
@@ -161,9 +187,12 @@ public class Board {
         }
     }
 
+    /****************************************************************************
+     * Function that will take the final desired position and will proceed with the change.
+     * @param coords The final coords(To where te monster will be moved).
+     ****************************************************************************/
     public void moveMonsterEnd(String coords){
         if( manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board ) ){
-            System.out.println("Done");
         }else{
             Alert alert = alertHelper.createErr("No se puede mover el monstruo", "Necesita colocarlo sobre un camino");
             alert.showAndWait();
@@ -172,7 +201,12 @@ public class Board {
         bMoveMonsterEnd = false;
     }
 
+    /****************************************************************************
+     * Function that will pop-up the different paths from where you can choose to add the selected monster.
+     * @param btnPosition The coords that will be used to initialize the selected path.
+     ****************************************************************************/
     public void addMonster(Button btnPosition){
+        System.out.printf("Doing");
         btnPosition.getStyleClass().remove("natural-color");
         btnPosition.getStyleClass().add("selected");
 
@@ -182,14 +216,27 @@ public class Board {
         PathBox.setVisible(true);
     }
 
+    /****************************************************************************
+     * Function that will initiate the roll up dices function.
+     * @param e The action of the click event.
+     ****************************************************************************/
     public void invokeDice(ActionEvent e){
         System.out.println("Invoking dices");
     }
 
-    public void showMonsterPanel(ActionEvent e){
-        MonsterBox.setVisible(true);
+    /****************************************************************************
+     * Function that will pop-up the different categories from where you can choose the
+     * desired monster.
+     * @param e The action of the click event.
+     ****************************************************************************/
+    public void showMonsterBox(ActionEvent e){
+        CategoryBox.setVisible(true);
     }
 
+    /****************************************************************************
+     * Function that will pop-up an alert to the user indicating to select from the board
+     * the desired monster to move.
+     ****************************************************************************/
     public void showMoveAlert(){
         if (manager_player.getCurrentPlayer().getArrMonsters().size() != 0) {
             bMoveMonsterInit = true;
@@ -199,6 +246,11 @@ public class Board {
         }
     }
 
+    /****************************************************************************
+     * Function that will be triggered once a monster is selected, the id of the source button
+     * will tell which monster is desired to create.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void invokeMonster(ActionEvent e){
         Button btnMonster = (Button) e.getSource();
 
@@ -215,21 +267,37 @@ public class Board {
         TankBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will show the different monsters acordding to this category.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void invokeInfantery(ActionEvent e){
         InfantryBox.setVisible(true);
-        MonsterBox.setVisible(false);
+        CategoryBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will show the different monsters acordding to this category.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void invokeArtillery(ActionEvent e){
         ArtilleryBox.setVisible(true);
-        MonsterBox.setVisible(false);
+        CategoryBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will show the different monsters acordding to this category.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void invokeTanks(ActionEvent e){
         TankBox.setVisible(true);
-        MonsterBox.setVisible(false);
+        CategoryBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will create the desired path after some validations.
+     * @param e The action of the click event
+     ****************************************************************************/
     public void invokePath(ActionEvent e){
         Button btnPath = (Button) e.getSource();
         Player currPlayer = manager_player.getCurrentPlayer();
@@ -263,6 +331,9 @@ public class Board {
         PathBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will rotate the path images and save the rotation selected.
+     ****************************************************************************/
     public void flipPath(){
         pathRotation = pathRotation == 360 ? 90 : pathRotation+90;
 
