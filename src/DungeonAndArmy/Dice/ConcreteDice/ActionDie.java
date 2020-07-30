@@ -6,9 +6,13 @@ public class ActionDie extends Die {
     public ActionDie(int pFaceAmount, String pColor) {
         this.type = "Accion";
         this.faces = new String[pFaceAmount];
-        for (int i = 1; i < faces.length; i++) {
-            this.faces[i] = "" + i + "";
-        }
+        faces[0] = "Movimiento";
+        faces[1] = "Movimiento";
+        faces[2] = "Atk";
+        faces[3] = "Atk";
+        faces[4] = "SP";
+        faces[5] = "SP";
+
         this.color = pColor;
     }
 
