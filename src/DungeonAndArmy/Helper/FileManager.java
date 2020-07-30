@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
+    private ArrayList<ImageView> arrImagesMovementDice = new ArrayList<>();
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/L.png") );
@@ -36,6 +37,12 @@ public class FileManager {
         arrImagesMonsters.add( resizeImage("Media/Army/Infantry.jpeg") );
         arrImagesMonsters.add( resizeImage("Media/Army/Tanks.jpeg") );
 
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice1.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice2.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice3.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice4.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice5.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice6.png"));
     }
 
     public ImageView resizeImage(String url){
