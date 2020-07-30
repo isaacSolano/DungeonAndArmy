@@ -14,7 +14,7 @@ public class Player {
     private int basePosition;
     private ArrayList<aPath> arrPaths;
     private ArrayList<Soldier> arrMonsters;
-    private ArrayList<String> cofre = new ArrayList<>();
+    private ArrayList<String> cofre;
     private DiceManager diceManager;
 
     //CONSTRUCTOR
@@ -24,6 +24,7 @@ public class Player {
         arrPaths = new ArrayList<>();
         arrMonsters = new ArrayList<>();
         diceManager = new DiceManager();
+        cofre = new ArrayList<>();
     }
 
     //GETS Y SETS
