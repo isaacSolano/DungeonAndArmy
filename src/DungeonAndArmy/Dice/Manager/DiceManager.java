@@ -18,13 +18,10 @@ public class DiceManager {
     }
 
     /**
-     *
-     * @param pId Identificador del jugador al que se le agregara el dado, puede ser 0 o 1.
-     * @param pDie Dado que se va a agregar al arreglo.
-     * @throws NonExistentPlayerException Excepcion si el ID del jugador es diferente de 0 o 1.
+     * @param player Jugador al que se le va a agregar los dados.
      */
     //para gestor player o main
-    public void addToPlayer(Player player) throws NonExistentPlayerException {
+    public void addToPlayer(Player player){
         player.agregarDado(actionDie.clone());
         player.agregarDado(summoningDie.clone());
     }
