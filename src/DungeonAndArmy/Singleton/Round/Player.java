@@ -1,6 +1,7 @@
 package DungeonAndArmy.Singleton.Round;
 
 import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import DungeonAndArmy.Dice.Manager.DiceManager;
 import DungeonAndArmy.Prototype.iPrototype.aPath;
 import java.util.ArrayList;
 import DungeonAndArmy.Dice.iPrototype.Die;
@@ -14,6 +15,7 @@ public class Player {
     private ArrayList<aPath> arrPaths;
     private ArrayList<Soldier> arrMonsters;
     private ArrayList<String> cofre = new ArrayList<>();
+    private DiceManager diceManager;
 
     //CONSTRUCTOR
     public Player(String id, int basePosition) {
@@ -21,6 +23,7 @@ public class Player {
         this.basePosition = basePosition;
         arrPaths = new ArrayList<>();
         arrMonsters = new ArrayList<>();
+        diceManager = new DiceManager();
     }
 
     //GETS Y SETS
