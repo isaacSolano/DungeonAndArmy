@@ -93,28 +93,23 @@ public class Player {
         switch (pDie.getType()){
 
             case "Invocacion":
-                if(cantI <= 6){
+                if(cantI <= 6)
                     cofre.add(pDie.getFace());
-                }
                 break;
             case "Accion":
 
                 switch (pDie.getFace()){
 
                     case "Movimiento":
-                        if (cantM <= 3){
-
-                        }
+                        if (cantM <= 3)
                         break;
                     case "Atk":
-                        if (cantA <= 3){
+                        if (cantA <= 3)
                             cofre.add("Atk");
-                        }
                         break;
                     case "SP":
-                        if (cantA <= 2){
+                        if (cantE <= 2)
                             cofre.add("SP");
-                        }
                         break;
                 }
 
