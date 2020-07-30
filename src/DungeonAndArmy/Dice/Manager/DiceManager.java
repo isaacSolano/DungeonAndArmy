@@ -24,4 +24,7 @@ public class DiceManager {
         player.agregarDado(summoningDie.clone());
     }
 
+	public Die getNumDie() {
+        return movementDie.clone();
+	}
 }
