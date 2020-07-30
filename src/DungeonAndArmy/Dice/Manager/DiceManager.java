@@ -6,8 +6,6 @@ import DungeonAndArmy.Dice.ConcreteDice.SummoningDie;
 import DungeonAndArmy.Dice.iPrototype.Die;
 import DungeonAndArmy.Singleton.Round.Player;
 
-import java.util.ArrayList;
-
 public class DiceManager {
     private ActionDie actionDie = new ActionDie(6,"azul");
     private SummoningDie summoningDie = new SummoningDie(6,"rojo");
