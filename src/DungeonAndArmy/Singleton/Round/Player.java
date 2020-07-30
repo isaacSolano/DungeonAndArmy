@@ -102,6 +102,7 @@ public class Player {
 
                     case "Movimiento":
                         if (cantM <= 3)
+                            cofre.add(diceManager.getNumDie().getFace());
                         break;
                     case "Atk":
                         if (cantA <= 3)
