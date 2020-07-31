@@ -61,4 +61,7 @@ public class FileManager {
     public ArrayList<ImageView> getArrImagesMonsters(){
         return this.arrImagesMonsters;
     }
+    public ArrayList<ImageView> getArrImagesMovementDice() {
+        return this.arrImagesMovementDice;
+    }
 }
