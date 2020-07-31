@@ -24,11 +24,13 @@ import javafx.util.Duration;
 import java.util.Timer;
 
 public class Board {
-    public GridPane Board, PathBox, MonsterBox, InfantryBox, ArtilleryBox, TankBox;
+    public GridPane Board, PathBox, MonsterBox, InfantryBox, ArtilleryBox, TankBox, Coffer;
     public Button L, Cruz, Z, P, U, T;
     public Button Aerys, Arryn, Arthur, Boko, Bora, Brienne, Bronn, Castlely, Forerunner, Glognar, Helms, Obara, Rhageon, Siddon, Varys;
     public Button Infantry, Artillery, Tanks;
+    public Button movementOption, attackOption, summonOption, specialOption;
     public Label txtTimer;
+    public Label movementLabel, attackLabel, specialLabel, summonLabel;
 
     private AlertHelper alertHelper = new AlertHelper();
     private Helper helper = new Helper();
@@ -95,6 +97,11 @@ public class Board {
         Artillery.setGraphic( fileManager.getArrImagesMonsters().get(15) );
         Infantry.setGraphic( fileManager.getArrImagesMonsters().get(16) );
         Tanks.setGraphic( fileManager.getArrImagesMonsters().get(17) );
+
+        attackOption.setGraphic(fileManager.getArrImagesMovementDice().get(0));
+        movementOption.setGraphic(fileManager.getArrImagesDiceOptions().get(0));
+        specialOption.setGraphic(fileManager.getArrImagesMovementDice().get(2));
+        summonOption.setGraphic(fileManager.getArrImagesMovementDice().get(3));
     }
 
     public void createBoard(){
@@ -183,7 +190,11 @@ public class Board {
     }
 
     public void invokeDice(ActionEvent e){
-        System.out.println("Invoking dices");
+        Coffer.setVisible(true);
+        movementLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantM()));
+        specialLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantE()));
+        attackLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantA()));
+        summonLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantI()));
     }
 
     public void showMonsterPanel(ActionEvent e){
