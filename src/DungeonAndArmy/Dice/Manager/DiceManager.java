@@ -7,12 +7,14 @@ import DungeonAndArmy.Dice.iPrototype.Die;
 import DungeonAndArmy.Singleton.Round.Player;
 
 public class DiceManager {
-    private ActionDie actionDie = new ActionDie(6,"azul");
-    private SummoningDie summoningDie = new SummoningDie(6,"rojo");
-    private MovementDie movementDie = new MovementDie(6,"verde");
+    private ActionDie actionDie;
+    private SummoningDie summoningDie;
+    private MovementDie movementDie;
 
     public DiceManager() {
-
+        actionDie   = new ActionDie(6,"azul");
+        summoningDie = new SummoningDie(6,"rojo");
+        movementDie = new MovementDie(6,"verde");
     }
 
     /**
