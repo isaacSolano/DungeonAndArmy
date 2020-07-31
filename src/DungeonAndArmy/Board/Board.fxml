@@ -16,7 +16,7 @@
     </GridPane>
 
     <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.columnSpan="2">
-        <Button text="Invocar dados" alignment="center" onAction="#invokeDice" fx:id="dados" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnAction"/>
+        <Button text="Ver Cofre" alignment="center" onAction="#invokeDice" fx:id="dados" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnAction"/>
         <Button text="Invocar monstruos" alignment="center" onAction="#showMonsterPanel" fx:id="monsters" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btnAction" />
         <Button text="Mover monstruo" alignment="center" onAction="#showMoveAlert" fx:id="movement" GridPane.columnIndex="2" GridPane.rowIndex="3" styleClass="btnAction" />
     </GridPane>
