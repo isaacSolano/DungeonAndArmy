@@ -16,6 +16,7 @@ public class Player {
     private ArrayList<Soldier> arrMonsters;
     private ArrayList<String> cofre;
     private DiceManager diceManager;
+    private int cantI,cantM,cantA,cantE;
 
     //CONSTRUCTOR
     public Player(String id, int basePosition) {
@@ -25,6 +26,10 @@ public class Player {
         arrMonsters = new ArrayList<>();
         diceManager = new DiceManager();
         cofre = new ArrayList<>();
+        this.cantA=0;
+        this.cantI=0;
+        this.cantM=0;
+        this.cantE=0;
     }
 
     //GETS Y SETS
@@ -68,8 +73,39 @@ public class Player {
         this.arrMonsters.add(soldier);
     }
 
+    public int getCantI() {
+        return cantI;
+    }
+
+    public void setCantI(int cantI) {
+        this.cantI = cantI;
+    }
+
+    public int getCantM() {
+        return cantM;
+    }
+
+    public void setCantM(int cantM) {
+        this.cantM = cantM;
+    }
+
+    public int getCantA() {
+        return cantA;
+    }
+
+    public void setCantA(int cantA) {
+        this.cantA = cantA;
+    }
+
+    public int getCantE() {
+        return cantE;
+    }
+
+    public void setCantE(int cantE) {
+        this.cantE = cantE;
+    }
+
     public String agregarDado(Die pDie){
-        int cantI = 0, cantM=0, cantA =0,cantE =0;
 
         for (String dado:cofre) {
 
