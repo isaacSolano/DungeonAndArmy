@@ -8,6 +8,7 @@ public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMovementDice = new ArrayList<>();
+    private ArrayList<ImageView> arrImagesDiceOptions = new ArrayList<>();
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/L.png") );
@@ -43,6 +44,8 @@ public class FileManager {
         arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice4.png"));
         arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice5.png"));
         arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice6.png"));
+
+        arrImagesDiceOptions.add(resizeImage("Media/Dice/Options/movement.png"));
     }
 
     public ImageView resizeImage(String url){
@@ -61,6 +64,11 @@ public class FileManager {
     public ArrayList<ImageView> getArrImagesMonsters(){
         return this.arrImagesMonsters;
     }
+
+    public ArrayList<ImageView> getArrImagesDiceOptions() {
+        return arrImagesDiceOptions;
+    }
+
     public ArrayList<ImageView> getArrImagesMovementDice() {
         return this.arrImagesMovementDice;
     }
