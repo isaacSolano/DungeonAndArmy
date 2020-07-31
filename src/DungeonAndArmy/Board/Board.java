@@ -289,6 +289,17 @@ public class Board {
 
     public void move(ActionEvent actionEvent) {    }
     public void showMovementDice(ActionEvent actionEvent) {
+        movement1.setVisible(false);
+        movement2.setVisible(false);
+        movement3.setVisible(false);
+        movement1.setGraphic(fileManager.getArrImagesMovementDice().get(2));
+        movement2.setGraphic(fileManager.getArrImagesMovementDice().get(4));
+        movement3.setGraphic(fileManager.getArrImagesMovementDice().get(5));
+        CofferMovement.setVisible(true);
+        movement1.setVisible(true);
+        movement2.setVisible(true);
+        movement3.setVisible(true);
+//        Coffer.setVisible(false);
     }
 
     public void showAttackDice(ActionEvent actionEvent) {
