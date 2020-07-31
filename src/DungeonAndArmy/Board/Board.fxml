@@ -73,4 +73,12 @@
         <Button onAction="#showSpecialDice" fx:id="specialOption" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino"/>
         <Label fx:id="specialLabel" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
     </GridPane>
+
+    <GridPane fx:id="CofferMovement" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
+        <Button onAction="#move" fx:id="movement1" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button onAction="#move" fx:id="movement2" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Button onAction="#move" fx:id="movement3" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+    </GridPane>
+
+
 </GridPane>

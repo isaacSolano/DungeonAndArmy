@@ -30,6 +30,8 @@ public class Board {
     public Button Infantry, Artillery, Tanks;
     public Button movementOption, attackOption, summonOption, specialOption;
     public Label txtTimer;
+    public Button movement1, movement2, movement3;
+    public GridPane CofferMovement;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
 
     private AlertHelper alertHelper = new AlertHelper();
@@ -283,5 +285,18 @@ public class Board {
         P.setRotate(pathRotation);
         U.setRotate(pathRotation);
         T.setRotate(pathRotation);
+    }
+
+    public void move(ActionEvent actionEvent) {    }
+    public void showMovementDice(ActionEvent actionEvent) {
+    }
+
+    public void showAttackDice(ActionEvent actionEvent) {
+    }
+
+    public void showSummoningDice(ActionEvent actionEvent) {
+    }
+
+    public void showSpecialDice(ActionEvent actionEvent) {
     }
 }
