@@ -1,9 +1,11 @@
 package DungeonAndArmy.Gestor;
 
+import DungeonAndArmy.Dice.Manager.DiceManager;
 import DungeonAndArmy.Singleton.Round.Player;
 import DungeonAndArmy.Singleton.Round.Round;
 
 public class Manager_Player {
+    private DiceManager diceManager = new DiceManager();
 
     Round currentRound;
     public Manager_Player() {
@@ -11,6 +13,7 @@ public class Manager_Player {
 
     public String assingRound(Player player){
         currentRound = Round.setRound(player);
+        diceManager.addToPlayer(player);
 
         return currentRound.getPlayer().toString();
     }
