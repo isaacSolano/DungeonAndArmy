@@ -21,7 +21,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.Timer;
 
