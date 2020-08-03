@@ -5,14 +5,19 @@ import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Artillery.*;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Infantry.*;
 import DungeonAndArmy.AbstractFactoryPattern.ConcreteFactory.Tank.*;
-import DungeonAndArmy.Bridge.Actions.AddMonster;
-import DungeonAndArmy.Bridge.Actions.RemoveMonster;
+import DungeonAndArmy.Bridge.Actions.*;
 import DungeonAndArmy.Prototype.iPrototype.aPath;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
 public class Manager_Monsters {
+
+    /**
+     * @param type The type of monster that is desired to create.
+     * @param arrCreatedSoldiers Array with the created monsters of the current player.
+     * @return Soldier The final created monster.
+     */
     public Soldier createMonster(String type, ArrayList<Soldier> arrCreatedSoldiers){
         Army ftArmy;
         Soldier createdSoldier = null;
@@ -101,10 +106,19 @@ public class Manager_Monsters {
         }
     }
 
+    /**
+     * @param ftArmy The general abstract Factory used to create the monster.
+     * @return Soldier The final created monster.
+     */
     public Soldier createFactory(Army ftArmy){
         return ftArmy.createSoldier();
     }
 
+    /**
+     * @param createdSoldier The monster that was created upon request.
+     * @param arrCreatedSoldiers The Array of created monsters of the current player.
+     * @return boolean Flag which will indicate if the created monster is already part of the current player's army.
+     */
     public boolean checkExistance(Soldier createdSoldier, ArrayList<Soldier> arrCreatedSoldiers){
         boolean exists = false;
 
@@ -117,6 +131,11 @@ public class Manager_Monsters {
         return exists;
     }
 
+    /**
+     * @param id The chosen position to move a monster.
+     * @param arrCreatedMonsters The Array of created monsters of the current player.
+     * @return Soldier The monster on the selected position (if any).
+     */
     public Soldier getMonster(String id, ArrayList<Soldier> arrCreatedMonsters){
         Soldier monsterFound = null;
 
@@ -129,6 +148,13 @@ public class Manager_Monsters {
         return monsterFound;
     }
 
+    /**
+     * @param soldier The soldier that will be moved.
+     * @param newPosition The new position id.
+     * @param arrCreatedPaths The Array of created paths of the current player.
+     * @param Board The main board.
+     * @return boolean The final flag which will indicate weather the monster have been moved or not.
+     */
     public boolean moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board){
         boolean moved = false;
         String originCoords = soldier.getCoords();
