@@ -6,17 +6,14 @@ import DungeonAndArmy.Prototype.iPrototype.aPath;
 import java.util.ArrayList;
 import DungeonAndArmy.Dice.iPrototype.Die;
 
-import java.util.ArrayList;
-
 public class Player {
 
     private String id;
     private int basePosition;
     private ArrayList<aPath> arrPaths;
     private ArrayList<Soldier> arrMonsters;
-    private ArrayList<String> cofre;
+    private ArrayList<String> movementChest, attackChest, specialChest, summoningChest;
     private DiceManager diceManager;
-    private int cantI,cantM,cantA,cantE;
 
     //CONSTRUCTOR
     public Player(String id, int basePosition) {
@@ -25,11 +22,10 @@ public class Player {
         arrPaths = new ArrayList<>();
         arrMonsters = new ArrayList<>();
         diceManager = new DiceManager();
-        cofre = new ArrayList<>();
-        this.cantA=0;
-        this.cantI=0;
-        this.cantM=0;
-        this.cantE=0;
+        movementChest = new ArrayList<>();
+        attackChest = new ArrayList<>();
+        summoningChest = new ArrayList<>();
+        specialChest = new ArrayList<>();
     }
 
     //GETS Y SETS
@@ -73,115 +69,103 @@ public class Player {
         this.arrMonsters.add(soldier);
     }
 
-    public int getCantI() {
-        return cantI;
-    }
-
-    public void setCantI(int cantI) {
-        this.cantI = cantI;
-    }
-
-    public int getCantM() {
-        return cantM;
-    }
-
-    public void setCantM(int cantM) {
-        this.cantM = cantM;
-    }
-
-    public int getCantA() {
-        return cantA;
-    }
-
-    public void setCantA(int cantA) {
-        this.cantA = cantA;
-    }
-
-    public int getCantE() {
-        return cantE;
-    }
-
-    public void setCantE(int cantE) {
-        this.cantE = cantE;
-    }
-
     public String agregarDado(Die pDie){
 
-        for (String dado:cofre) {
-
-            switch (dado){
-
-                case "Artillero": case "Tanque": case "Infanteria":
-                    cantI++;
-                    break;
-                case "1": case "2": case "3":case "4":case "5":case "6":
-                    cantM++;
-                    break;
-                case "Atk":
-                    cantA++;
-                    break;
-                case "SP":
-                    cantE++;
-                    break;
-            }
-
-        }
         switch (pDie.getType()){
-
             case "Invocacion":
-                if(cantI <= 6)
-                    cofre.add(pDie.getFace());
+                if(summoningChest.size() <= 6)
+                    summoningChest.add(pDie.getFace());
                 break;
             case "Accion":
-
                 switch (pDie.getFace()){
 
                     case "Movimiento":
-                        if (cantM <= 3)
-                            cofre.add(diceManager.getNumDie().getFace());
+                        if (movementChest.size() <= 3)
+                            movementChest.add(diceManager.getNumDie().getFace());
                         break;
                     case "Atk":
-                        if (cantA <= 3)
-                            cofre.add("Atk");
+                        if (attackChest.size() <= 3)
+                            attackChest.add("Atk");
                         break;
                     case "SP":
-                        if (cantE <= 2)
-                            cofre.add("SP");
+                        if (specialChest.size() <= 2)
+                            specialChest.add("SP");
                         break;
                 }
-
-
-
-
         }
-
         return "Dado agregado";
     }
 
     //Usar lo que hay adentro del cofre
-    public String usarCofre(String pDado){
+    public String movePiece(String pDado){
 
-        for (String dado:cofre) {
+        for (String dado:movementChest) {
             if(dado.equals(pDado)){
-                cofre.remove(dado);
+                movementChest.remove(dado);
                 return dado;
             }
         }
-
         return null;
     }
 
-    public String[] listarDados(){
-        String info[] = new String[cofre.size()];
-        int cont = 0;
-        for (String dados:cofre) {
-            info[cont] = dados;
-            cont++;
-        }
-        return info;
-
+    /**
+     *
+     * @return Amount of dice stored in the movement chest.
+     */
+    public int countMovementDice(){
+        return movementChest.size();
     }
 
+    /**
+     *
+     * @return Amount of dice stored in the special chest.
+     */
+    public int countSpecialDice(){
+        return specialChest.size();
+    }
+
+    /**
+     *
+     * @return Amount of dice stored in the summoning chest.
+     */
+    public int countSummoningDice(){
+        return summoningChest.size();
+    }
+
+    /**
+     *
+     * @return Amount of dice stored in the attack chest.
+     */
+    public int countAttackDice(){
+        return attackChest.size();
+    }
+
+    /**
+     *
+     * @return Amount of movement dice stored in the chest.
+     */
+    public ArrayList<String> getMovementDice(){
+        return movementChest;
+    }
+    
+    public int[] countMonsters(){
+        int monsters[] = {0,0,0};
+        for (String monster : summoningChest){
+            switch (monster){
+                case "Artillero":
+                    monsters[0]++;
+                    break;
+                case "Infanteria":
+                    monsters[1]++;
+                    break;
+                case "Tanque":
+                    monsters[2]++;
+                    break;
+            }
+        }
+        return monsters;
+    }
+    
     @Override
     public String toString() {
         return "El jugador: " + id + " inicia en la posicion " + basePosition;

@@ -34,8 +34,11 @@
 
     <GridPane fx:id="MonsterBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
         <Button onAction="#invokeInfantery" fx:id="Infantry" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Label fx:id="infantryCount" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Button onAction="#invokeArtillery" fx:id="Artillery" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Label fx:id="artilleryCount" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         <Button onAction="#invokeTanks" fx:id="Tanks" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Label fx:id="tankCount" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
     </GridPane>
 
     <GridPane fx:id="InfantryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
@@ -63,15 +66,15 @@
     </GridPane>
 
     <GridPane fx:id="Coffer" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
-        <Label GridPane.rowIndex="0" GridPane.columnIndex="">Dados Disponibles</Label>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="3">Dados Disponibles</Label>
         <Button onAction="#showMovementDice" fx:id="movementOption" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino"/>
         <Label fx:id="movementLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Button onAction="#showAttackDice" fx:id="attackOption" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino"/>
         <Label fx:id="attackLabel" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <Button onAction="#showSummoningDice" fx:id="summonOption" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnCamino"/>
-        <Label fx:id="summonLabel" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-        <Button onAction="#showSpecialDice" fx:id="specialOption" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino"/>
-        <Label fx:id="specialLabel" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+        <Button onAction="#showMonsterPanel" fx:id="summonOption" GridPane.columnIndex="4" GridPane.rowIndex="1" styleClass="btnCamino"/>
+        <Label fx:id="summonLabel" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+        <Button onAction="#showSpecialDice" fx:id="specialOption" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnCamino"/>
+        <Label fx:id="specialLabel" GridPane.columnIndex="5" GridPane.rowIndex="2"/>
     </GridPane>
 
     <GridPane fx:id="CofferMovement" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
@@ -79,6 +82,5 @@
         <Button onAction="#move" fx:id="movement2" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
         <Button onAction="#move" fx:id="movement3" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
     </GridPane>
-
 
 </GridPane>

@@ -2,13 +2,33 @@ package DungeonAndArmy.Helper;
 
 import javafx.scene.image.ImageView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMovementDice = new ArrayList<>();
-    private ArrayList<ImageView> arrImagesDiceOptions = new ArrayList<>();
+    private final ImageView movement = resizeImage("Media/Dice/Options/movement.png");
+    private final ImageView attack = resizeImage("Media/Dice/Options/attack.png");
+    private final ImageView special = resizeImage("Media/Dice/Options/special.png");
+    private final ImageView summoning = resizeImage("Media/Dice/Options/summoning.png");
+
+    public ImageView getMovement() {
+        return movement;
+    }
+
+    public ImageView getAttack() {
+        return attack;
+    }
+
+    public ImageView getSpecial() {
+        return special;
+    }
+
+    public ImageView getSummoning() {
+        return summoning;
+    }
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/L.png") );
@@ -45,7 +65,6 @@ public class FileManager {
         arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice5.png"));
         arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice6.png"));
 
-        arrImagesDiceOptions.add(resizeImage("Media/Dice/Options/movement.png"));
     }
 
     public ImageView resizeImage(String url){
@@ -63,10 +82,6 @@ public class FileManager {
 
     public ArrayList<ImageView> getArrImagesMonsters(){
         return this.arrImagesMonsters;
-    }
-
-    public ArrayList<ImageView> getArrImagesDiceOptions() {
-        return arrImagesDiceOptions;
     }
 
     public ArrayList<ImageView> getArrImagesMovementDice() {

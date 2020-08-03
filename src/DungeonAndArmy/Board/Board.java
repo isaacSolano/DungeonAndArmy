@@ -21,6 +21,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import javax.swing.plaf.IconUIResource;
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class Board {
@@ -33,6 +35,7 @@ public class Board {
     public Button movement1, movement2, movement3;
     public GridPane CofferMovement;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
+    public Label tankCount, artilleryCount, infantryCount;
 
     private AlertHelper alertHelper = new AlertHelper();
     private Helper helper = new Helper();
@@ -100,10 +103,10 @@ public class Board {
         Infantry.setGraphic( fileManager.getArrImagesMonsters().get(16) );
         Tanks.setGraphic( fileManager.getArrImagesMonsters().get(17) );
 
-        attackOption.setGraphic(fileManager.getArrImagesMovementDice().get(0));
-        movementOption.setGraphic(fileManager.getArrImagesDiceOptions().get(0));
-        specialOption.setGraphic(fileManager.getArrImagesMovementDice().get(2));
-        summonOption.setGraphic(fileManager.getArrImagesMovementDice().get(3));
+        attackOption.setGraphic(fileManager.getAttack());
+        movementOption.setGraphic(fileManager.getMovement());
+        specialOption.setGraphic(fileManager.getSpecial());
+        summonOption.setGraphic(fileManager.getSummoning());
     }
 
     public void createBoard(){
@@ -193,14 +196,24 @@ public class Board {
 
     public void invokeDice(ActionEvent e){
         Coffer.setVisible(true);
-        movementLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantM()));
-        specialLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantE()));
-        attackLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantA()));
-        summonLabel.setText(String.valueOf(manager_player.getCurrentPlayer().getCantI()));
+        movementLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countMovementDice()));
+        specialLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSpecialDice()));
+        attackLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countAttackDice()));
+        summonLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSummoningDice()));
     }
 
     public void showMonsterPanel(ActionEvent e){
-        MonsterBox.setVisible(true);
+        if (manager_player.getCurrentPlayer().countSummoningDice() >0) {
+            Coffer.setVisible(false);
+            MonsterBox.setVisible(true);
+            int[] monsters = manager_player.getCurrentPlayer().countMonsters();
+            artilleryCount.setText(String.valueOf(monsters[0]));
+            infantryCount.setText(String.valueOf(monsters[1]));
+            tankCount.setText(String.valueOf(monsters[2]));
+        }else {
+            Alert alert = alertHelper.createInfo("No hay dados", "No tiene dados almacenados para invocar.");
+        }
+
     }
 
     public void showMoveAlert(){
@@ -289,23 +302,34 @@ public class Board {
 
     public void move(ActionEvent actionEvent) {    }
     public void showMovementDice(ActionEvent actionEvent) {
+        // Hace invisibles los dados por si no estan.
         movement1.setVisible(false);
         movement2.setVisible(false);
         movement3.setVisible(false);
-        movement1.setGraphic(fileManager.getArrImagesMovementDice().get(2));
-        movement2.setGraphic(fileManager.getArrImagesMovementDice().get(4));
-        movement3.setGraphic(fileManager.getArrImagesMovementDice().get(5));
         CofferMovement.setVisible(true);
-        movement1.setVisible(true);
-        movement2.setVisible(true);
-        movement3.setVisible(true);
-//        Coffer.setVisible(false);
+        ArrayList<String> movementDice = manager_player.getCurrentPlayer().getMovementDice();
+        int count = movementDice.size();
+        if (count == 3) {
+            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
+            movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
+            movement3.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(2))));
+            movement1.setVisible(true);
+            movement2.setVisible(true);
+            movement3.setVisible(true);
+        }else if (count > 1){
+            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
+            movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
+            movement1.setVisible(true);
+            movement2.setVisible(true);
+        }else{
+            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
+            movement1.setVisible(true);
+        }
+        Coffer.setVisible(false);
     }
 
     public void showAttackDice(ActionEvent actionEvent) {
-    }
 
-    public void showSummoningDice(ActionEvent actionEvent) {
     }
 
     public void showSpecialDice(ActionEvent actionEvent) {
