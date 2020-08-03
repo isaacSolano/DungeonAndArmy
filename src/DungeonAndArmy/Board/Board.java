@@ -194,12 +194,29 @@ public class Board {
         PathBox.setVisible(true);
     }
 
-    public void invokeDice(ActionEvent e){
+    public void invokeDice(ActionEvent e) {
         Coffer.setVisible(true);
+        if (manager_player.getCurrentPlayer().countMovementDice() == 0){
+            movementOption.setVisible(false);
+            movementLabel.setVisible(false);
+        }
+        if (manager_player.getCurrentPlayer().countSpecialDice() == 0){
+            specialOption.setVisible(false);
+            specialLabel.setVisible(false);
+        }
+        if (manager_player.getCurrentPlayer().countAttackDice() == 0){
+            attackOption.setVisible(false);
+            attackLabel.setVisible(false);
+        }
+        if (manager_player.getCurrentPlayer().countSummoningDice() == 0){
+            summonLabel.setVisible(false);
+            summonOption.setVisible(false);
+        }
         movementLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countMovementDice()));
         specialLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSpecialDice()));
         attackLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countAttackDice()));
         summonLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSummoningDice()));
+        CofferMovement.setVisible(false);
     }
 
     public void showMonsterPanel(ActionEvent e){
@@ -300,7 +317,8 @@ public class Board {
         T.setRotate(pathRotation);
     }
 
-    public void move(ActionEvent actionEvent) {    }
+    public void move(ActionEvent actionEvent) {
+    }
     public void showMovementDice(ActionEvent actionEvent) {
         // Hace invisibles los dados por si no estan.
         movement1.setVisible(false);
@@ -328,10 +346,16 @@ public class Board {
         Coffer.setVisible(false);
     }
 
-    public void showAttackDice(ActionEvent actionEvent) {
-
+    public void attack(ActionEvent actionEvent) {
+        if (manager_player.getCurrentPlayer().countAttackDice() > 0){
+            // Procedimiento de ataque, selecciona un monstruo, apunta al monstruo adyacente que desea atacar,
+            // calcular daño
+        }
     }
 
-    public void showSpecialDice(ActionEvent actionEvent) {
+    public void useSpecial(ActionEvent actionEvent) {
+        if (manager_player.getCurrentPlayer().countSpecialDice() > 0){
+            // Seleccionar monstruo, usar ataque especial.
+        }
     }
 }

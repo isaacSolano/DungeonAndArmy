@@ -69,6 +69,11 @@ public class Player {
         this.arrMonsters.add(soldier);
     }
 
+    /**
+     *
+     * @param pDie Die that must be added to the chest.
+     * @return String confirming the addition of the die.
+     */
     public String agregarDado(Die pDie){
 
         switch (pDie.getType()){
@@ -96,7 +101,11 @@ public class Player {
         return "Dado agregado";
     }
 
-    //Usar lo que hay adentro del cofre
+    /**
+     *
+     * @param pDado Dado para mover la pieza.
+     * @return String con el valor que debe mover el dado.
+     */
     public String movePiece(String pDado){
 
         for (String dado:movementChest) {
@@ -147,9 +156,13 @@ public class Player {
     public ArrayList<String> getMovementDice(){
         return movementChest;
     }
-    
+
+    /**
+     *
+     * @return Array with 3 places, one for the artillery, one for infantry, and one for the tanks.
+     */
     public int[] countMonsters(){
-        int monsters[] = {0,0,0};
+        int[] monsters = {0,0,0};
         for (String monster : summoningChest){
             switch (monster){
                 case "Artillero":

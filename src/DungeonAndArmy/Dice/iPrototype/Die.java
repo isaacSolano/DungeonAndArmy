@@ -1,5 +1,7 @@
 package DungeonAndArmy.Dice.iPrototype;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public abstract class Die {
     protected String type, color;
     protected String[] faces;
@@ -23,7 +25,7 @@ public abstract class Die {
      * @return valor al azar de una de las caras del dado
      */
     public String getFace() {
-        return faces[(int) (Math.random() / faces.length)];
+        return faces[ThreadLocalRandom.current().nextInt(0,6)];
     }
 
     /**
