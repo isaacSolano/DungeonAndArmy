@@ -1,6 +1,5 @@
 package DungeonAndArmy.Bridge.Abstract;
 
-import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;

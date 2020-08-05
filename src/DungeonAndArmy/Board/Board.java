@@ -1,17 +1,17 @@
 package DungeonAndArmy.Board;
 
-import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import DungeonAndArmy.Abstract_Factory.AbstractProduct.Soldier;
 import DungeonAndArmy.Bridge.Abstract.iShape;
-import DungeonAndArmy.Gestor.Manager_Monsters;
-import DungeonAndArmy.Gestor.Manager_Path;
-import DungeonAndArmy.Gestor.Manager_Player;
+import DungeonAndArmy.Manager.Manager_Monsters;
+import DungeonAndArmy.Manager.Manager_Path;
+import DungeonAndArmy.Manager.Manager_Player;
 
 import DungeonAndArmy.Helper.AlertHelper;
 import DungeonAndArmy.Helper.FileManager;
 import DungeonAndArmy.Helper.Helper;
 
 import DungeonAndArmy.Prototype.iPrototype.aPath;
-import DungeonAndArmy.Singleton.Round.Player;
+import DungeonAndArmy.Singleton.Player;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -25,13 +25,13 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 public class Board {
-    public GridPane Board, PathBox, CategoryBox, InfantryBox, ArtilleryBox, TankBox, Coffer;
+    public GridPane Board, PathBox, CategoryBox, InfantryBox, ArtilleryBox, TankBox, CofferBox;
     public Button L, Cruz, Z, P, U, T;
     public Button Aerys, Arryn, Arthur, Boko, Bora, Brienne, Bronn, Castlely, Forerunner, Glognar, Helms, Obara, Rhageon, Siddon, Varys;
     public Button Infantry, Artillery, Tanks;
-    public Button movementOption, attackOption, summonOption, specialOption;
+    public Button movementDice, attackDice, summonDice, specialDice;
     public Label txtTimer;
-    public Button movement1, movement2, movement3;
+    public Button movement1, movement2, movement3, movementOption;
     public GridPane CofferMovement;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
     public Label tankCount, artilleryCount, infantryCount;
@@ -48,11 +48,14 @@ public class Board {
     private Integer[] actionPosition = new Integer[2];
 
     private int secondsPassed = 0;
+    private int pathRotation = 0;
+    private int totalMovement = 0;
+
     private Timer timer = new Timer();
 
-    private int pathRotation = 0;
     private Soldier bAddMonster = null;
     private Soldier moveSoldier = null;
+
     private boolean bMoveMonsterInit = false;
     private boolean bMoveMonsterEnd = false;
 
@@ -61,12 +64,12 @@ public class Board {
      ****************************************************************************/
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if(secondsPassed >= 10){
+            if(secondsPassed >= 20){
                 secondsPassed = 0;
                 manager_player.changePlayer(playerA, playerB);
                 bAddMonster = null;
             }
-            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (10 - secondsPassed) + " segundos de juego");
+            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (20 - secondsPassed) + " segundos de juego");
             secondsPassed++;
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -109,10 +112,10 @@ public class Board {
         Infantry.setGraphic( fileManager.getArrImagesMonsters().get(16) );
         Tanks.setGraphic( fileManager.getArrImagesMonsters().get(17) );
 
-        attackOption.setGraphic(fileManager.getAttack());
-        movementOption.setGraphic(fileManager.getMovement());
-        specialOption.setGraphic(fileManager.getSpecial());
-        summonOption.setGraphic(fileManager.getSummoning());
+        attackDice.setGraphic(fileManager.getAttack());
+        movementDice.setGraphic(fileManager.getMovement());
+        specialDice.setGraphic(fileManager.getSpecial());
+        summonDice.setGraphic(fileManager.getSummoning());
     }
 
     /****************************************************************************
@@ -203,7 +206,7 @@ public class Board {
      * @param coords The final coords(To where te monster will be moved).
      ****************************************************************************/
     public void moveMonsterEnd(String coords){
-        if( manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board ) ){
+        if( manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board, totalMovement) ){
         }else{
             Alert alert = alertHelper.createErr("No se puede mover el monstruo", "Necesita colocarlo sobre un camino");
             alert.showAndWait();
@@ -217,7 +220,6 @@ public class Board {
      * @param btnPosition The coords that will be used to initialize the selected path.
      ****************************************************************************/
     public void addMonster(Button btnPosition){
-        System.out.printf("Doing");
         btnPosition.getStyleClass().remove("natural-color");
         btnPosition.getStyleClass().add("selected");
 
@@ -232,42 +234,34 @@ public class Board {
      * @param e The action of the click event.
      ****************************************************************************/
     public void invokeDice(ActionEvent e) {
-        Coffer.setVisible(true);
+        String description = "Cantidad ";
+        CofferBox.setVisible(true);
+
         if (manager_player.getCurrentPlayer().countMovementDice() == 0){
-            movementOption.setVisible(false);
+            movementDice.setVisible(false);
             movementLabel.setVisible(false);
         }
+
         if (manager_player.getCurrentPlayer().countSpecialDice() == 0){
-            specialOption.setVisible(false);
+            specialDice.setVisible(false);
             specialLabel.setVisible(false);
         }
+
         if (manager_player.getCurrentPlayer().countAttackDice() == 0){
-            attackOption.setVisible(false);
+            attackDice.setVisible(false);
             attackLabel.setVisible(false);
         }
+
         if (manager_player.getCurrentPlayer().countSummoningDice() == 0){
             summonLabel.setVisible(false);
-            summonOption.setVisible(false);
+            summonDice.setVisible(false);
         }
-        movementLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countMovementDice()));
-        specialLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSpecialDice()));
-        attackLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countAttackDice()));
-        summonLabel.setText(String.valueOf(manager_player.getCurrentPlayer().countSummoningDice()));
-        CofferMovement.setVisible(false);
-    }
 
-    public void showMonsterPanel(ActionEvent e) {
-        if (manager_player.getCurrentPlayer().countSummoningDice() > 0) {
-            Coffer.setVisible(false);
-            CategoryBox.setVisible(true);
-            int[] monsters = manager_player.getCurrentPlayer().countMonsters();
-            artilleryCount.setText(String.valueOf(monsters[0]));
-            infantryCount.setText(String.valueOf(monsters[1]));
-            tankCount.setText(String.valueOf(monsters[2]));
-        } else {
-            Alert alert = alertHelper.createInfo("No hay dados", "No tiene dados almacenados para invocar.");
-            alert.showAndWait();
-        }
+        movementLabel.setText(description + manager_player.getCurrentPlayer().countMovementDice() );
+        specialLabel.setText(description + manager_player.getCurrentPlayer().countSpecialDice() );
+        attackLabel.setText(description + manager_player.getCurrentPlayer().countAttackDice() );
+        summonLabel.setText(description + manager_player.getCurrentPlayer().countSummoningDice() );
+        CofferMovement.setVisible(false);
     }
 
     /****************************************************************************
@@ -275,19 +269,36 @@ public class Board {
      * desired monster.
      * @param e The action of the click event.
      ****************************************************************************/
-    public void showMonsterBox(ActionEvent e){
-        CategoryBox.setVisible(true);
+    public void showMonsterPanel(ActionEvent e) {
+        String description = "Cantidad: ";
+        if (manager_player.getCurrentPlayer().countSummoningDice() > 0) {
+            CofferBox.setVisible(false);
+            CategoryBox.setVisible(true);
+            int[] monsters = manager_player.getCurrentPlayer().countMonsters();
+            artilleryCount.setText(description + monsters[0]);
+            infantryCount.setText(description + monsters[1]);
+            tankCount.setText(description + monsters[2] );
+        } else {
+            Alert alert = alertHelper.createInfo("No hay dados", "No tiene dados almacenados para invocar.");
+            alert.showAndWait();
+        }
     }
 
     /****************************************************************************
      * Function that will pop-up an alert to the user indicating to select from the board
      * the desired monster to move.
      ****************************************************************************/
-    public void showMoveAlert(){
+    public void showMoveAlert(ActionEvent e, Integer[] movement){
+        for(Integer n : movement){
+            totalMovement += n+1;
+        }
+
         if (manager_player.getCurrentPlayer().getArrMonsters().size() != 0) {
             bMoveMonsterInit = true;
             Alert alert = alertHelper.createInfo("Mover monstruo", "Seleccione el monstruo que desea mover");
-
+            alert.showAndWait();
+        }else{
+            Alert alert = alertHelper.createErr("No se puede completar la accion", "Debe primero invocar monstruos");
             alert.showAndWait();
         }
     }
@@ -304,7 +315,6 @@ public class Board {
 
         if(bAddMonster == null){
             Alert alert = alertHelper.createErr("No se puede crear el monstruo", "Ya esta listado en su ejercito");
-
             alert.showAndWait();
         }
 
@@ -318,7 +328,16 @@ public class Board {
      * @param e The action of the click event
      ****************************************************************************/
     public void invokeInfantery(ActionEvent e){
-        InfantryBox.setVisible(true);
+        int n = manager_player.getCurrentPlayer().countMonsters()[1];
+
+        if(n >= 2){
+            InfantryBox.setVisible(true);
+            CategoryBox.setVisible(false);
+        }else{
+            Alert alert = alertHelper.createErr("", "");
+            alert.showAndWait();
+        }
+
         CategoryBox.setVisible(false);
     }
 
@@ -327,7 +346,16 @@ public class Board {
      * @param e The action of the click event
      ****************************************************************************/
     public void invokeArtillery(ActionEvent e){
-        ArtilleryBox.setVisible(true);
+        int n = manager_player.getCurrentPlayer().countMonsters()[0];
+
+        if(n >= 3){
+            ArtilleryBox.setVisible(true);
+            CategoryBox.setVisible(false);
+        }else{
+            Alert alert = alertHelper.createErr("", "");
+            alert.showAndWait();
+        }
+
         CategoryBox.setVisible(false);
     }
 
@@ -336,7 +364,16 @@ public class Board {
      * @param e The action of the click event
      ****************************************************************************/
     public void invokeTanks(ActionEvent e){
-        TankBox.setVisible(true);
+        int n = manager_player.getCurrentPlayer().countMonsters()[2];
+
+        if(n >= 4){
+            TankBox.setVisible(true);
+            CategoryBox.setVisible(false);
+        }else{
+            Alert alert = alertHelper.createErr("", "");
+            alert.showAndWait();
+        }
+
         CategoryBox.setVisible(false);
     }
 
@@ -391,10 +428,11 @@ public class Board {
         T.setRotate(pathRotation);
     }
 
-    public void move(ActionEvent actionEvent) {
+    public void move(ActionEvent e) {
     }
 
-    public void showMovementDice(ActionEvent actionEvent) {
+    public void showMovementDice(ActionEvent e) {
+        totalMovement = 0;
         movement1.setVisible(false);
         movement2.setVisible(false);
         movement3.setVisible(false);
@@ -405,19 +443,32 @@ public class Board {
             movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
             movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
             movement3.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(2))));
+
             movement1.setVisible(true);
             movement2.setVisible(true);
             movement3.setVisible(true);
+            movementOption.setVisible(true);
+
+            movementOption.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0)), Integer.parseInt(movementDice.get(1)), Integer.parseInt(movementDice.get(2))}) );
         }else if (count > 1){
             movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
             movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
+
             movement1.setVisible(true);
             movement2.setVisible(true);
+            movementOption.setVisible(true);
+
+            movementOption.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0)), Integer.parseInt(movementDice.get(1))}) );
         }else{
             movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
+
             movement1.setVisible(true);
+            movementOption.setVisible(true);
+
+            movementOption.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0))}) );
         }
-        Coffer.setVisible(false);
+
+        CofferBox.setVisible(false);
     }
 
     public void attack(ActionEvent actionEvent) {

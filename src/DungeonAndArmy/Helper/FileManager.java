@@ -2,7 +2,6 @@ package DungeonAndArmy.Helper;
 
 import javafx.scene.image.ImageView;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class FileManager {
@@ -31,12 +30,12 @@ public class FileManager {
     }
 
     public FileManager(){
-        arrImagesPaths.add( resizeImage("Media/L.png") );
-        arrImagesPaths.add( resizeImage("Media/Cruz.png") );
-        arrImagesPaths.add( resizeImage("Media/Z.png") );
-        arrImagesPaths.add( resizeImage("Media/P.png") );
-        arrImagesPaths.add( resizeImage("Media/U.png") );
-        arrImagesPaths.add( resizeImage("Media/T.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/L.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/Cruz.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/Z.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/P.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/U.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/T.png") );
 
         arrImagesMonsters.add( resizeImage("Media/Army/Aerys.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Arryn.png") );

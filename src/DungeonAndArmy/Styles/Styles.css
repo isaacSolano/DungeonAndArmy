@@ -56,3 +56,7 @@
 .d-none{
     visibility: hidden;
 }
+
+.p-b{
+    -fx-padding: 0 0 30 0;
+}

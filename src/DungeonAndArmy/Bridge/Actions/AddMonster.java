@@ -1,6 +1,6 @@
 package DungeonAndArmy.Bridge.Actions;
 
-import DungeonAndArmy.AbstractFactoryPattern.AbstractProduct.Soldier;
+import DungeonAndArmy.Abstract_Factory.AbstractProduct.Soldier;
 import DungeonAndArmy.Bridge.Abstract.iAction;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
