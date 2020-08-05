@@ -8,7 +8,12 @@ public class RhaegonFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Rhaegon rhaegon = new Rhaegon();
-        //Hacer el set de la vida, defensa y ataque
+
+        rhaegon.setMove(1);
+        rhaegon.setLife(4);
+        rhaegon.setDefense(3);
+        rhaegon.setAttack(15);
+
         return rhaegon;
     }
 }

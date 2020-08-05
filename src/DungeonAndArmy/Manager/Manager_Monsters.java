@@ -159,7 +159,9 @@ public class Manager_Monsters {
      */
     public boolean moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board, int totalMovement){
         String originCoords = soldier.getCoords();
-        boolean moved = false, validateBoxes = validateBoxes(originCoords, newPosition, totalMovement), validateMovement = validateMonsterMovement(soldier.getMove());
+        boolean moved = false,
+                validateBoxes = validateBoxes(originCoords, newPosition, totalMovement),
+                validateMovement = validateMonsterMovement(soldier.getMove());
 
         if(validateBoxes && validateMovement) {
             for (aPath path : arrCreatedPaths) {
@@ -194,7 +196,7 @@ public class Manager_Monsters {
         System.out.println("curr movement");
         System.out.println(currentMovement);
 
-        if(monsterMovement >= currentMovement){
+        if(currentMovement <= monsterMovement ){
             moved = true;
         }
 
@@ -206,6 +208,8 @@ public class Manager_Monsters {
      * @param newPosition The new position id.
      * @param totalMovement Total spaces available to move the monster.
      * @return boolean The final flag which will indicate weather the monster can be moved or not.
+     *
+     * currentMovement = lo que el usuario quiere mover.
      */
     public boolean validateBoxes(String originPosition, String newPosition, int totalMovement){
         int posXOrigin = Integer.parseInt( originPosition.split("_")[0] ),
@@ -219,34 +223,35 @@ public class Manager_Monsters {
         if(posYOrigin == posYNew){
             if(posXOrigin > posXNew){
                 if(posXOrigin - posXNew <= totalMovement){
-                    remainingMovement = posXOrigin - posXNew;
-                    currentMovement = totalMovement - remainingMovement;
+                    currentMovement = posXOrigin - posXNew;
+                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }else if(posXOrigin < posXNew){
                 if(posXNew - posXOrigin <= totalMovement){
-                    remainingMovement = posXNew - posXOrigin;
-                    currentMovement = totalMovement - remainingMovement;
+                    currentMovement = posXNew - posXOrigin;
+                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }
         }else if(posXOrigin == posXNew){
             if(posYOrigin > posYNew){
                 if(posYOrigin - posYNew <= totalMovement){
-                    remainingMovement = posYOrigin - posYNew;
-                    currentMovement = totalMovement - remainingMovement;
+                    currentMovement = posYOrigin - posYNew;
+                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }else if(posYOrigin < posYNew){
                 if(posYNew - posYOrigin <= totalMovement){
-                    remainingMovement = posYNew - posYOrigin;
-                    currentMovement = totalMovement - remainingMovement;
+                    currentMovement = posYNew - posYOrigin;
+                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }
         }
 
-//        System.out.println(remainingMovement);
+        System.out.println("Cantidad de movimientos sobrantes después de la acción: ");
+        System.out.println(remainingMovement);
 
         return validated;
     }

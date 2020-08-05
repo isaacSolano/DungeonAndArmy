@@ -64,12 +64,12 @@ public class Board {
      ****************************************************************************/
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if(secondsPassed >= 20){
+            if(secondsPassed >= 15){
                 secondsPassed = 0;
                 manager_player.changePlayer(playerA, playerB);
                 bAddMonster = null;
             }
-            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (20 - secondsPassed) + " segundos de juego");
+            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (15 - secondsPassed) + " segundos de juego");
             secondsPassed++;
         }));
         timeline.setCycleCount(Animation.INDEFINITE);

@@ -8,7 +8,12 @@ public class VarysFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Varys varys = new Varys();
-        //Hacer el set de la vida, defensa y ataque
+
+        varys.setMove(1);
+        varys.setLife(2);
+        varys.setDefense(5);
+        varys.setAttack(10);
+
         return varys;
     }
 }

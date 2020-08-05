@@ -8,7 +8,10 @@ public class BokoFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Boko boko = new Boko();
-        //Hacer el set de la vida, defensa y ataque
+        boko.setMove(1);
+        boko.setLife(1);
+        boko.setDefense(1);
+        boko.setAttack(6);
         return boko;
     }
 }

@@ -8,7 +8,11 @@ public class BronnFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Bronn bronn = new Bronn();
-        //Hacer el set de la vida, defensa y ataque
+        bronn.setMove(2);
+        bronn.setLife(2);
+        bronn.setDefense(4);
+        bronn.setAttack(3);
+
         return bronn;
     }
 }

@@ -8,7 +8,12 @@ public class ForerunnerFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Forerunner forerunner = new Forerunner();
-        //Hacer el set de la vida, defensa y ataque
+
+        forerunner.setMove(2);
+        forerunner.setLife(2);
+        forerunner.setDefense(10);
+        forerunner.setAttack(5);
+
         return forerunner;
     }
 }

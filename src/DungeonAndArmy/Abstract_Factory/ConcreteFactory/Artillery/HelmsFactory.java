@@ -8,7 +8,11 @@ public class HelmsFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Helms helms = new Helms();
-        //Hacer el set de la vida, defensa y ataque
+        helms.setMove(2);
+        helms.setLife(2);
+        helms.setDefense(3);
+        helms.setAttack(6);
+
         return helms;
     }
 }

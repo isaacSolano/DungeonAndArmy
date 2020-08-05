@@ -8,7 +8,12 @@ public class ObaraFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Obara obara = new Obara();
-        //Hacer el set de la vida, defensa y ataque
+
+        obara.setMove(3);
+        obara.setLife(3);
+        obara.setDefense(3);
+        obara.setAttack(2);
+
         return obara;
     }
 }

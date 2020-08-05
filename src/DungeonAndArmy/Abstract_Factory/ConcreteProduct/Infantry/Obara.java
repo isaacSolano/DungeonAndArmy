@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 public class Obara implements Soldier {
     private static final String category = "Infantería";
     private final String name = "Obara";
-    private ImageView image = new ImageView("Media/Army/Bora.png");
+    private ImageView image = new ImageView("Media/Army/Obara.png");
 
     private String coords;
     private int move;

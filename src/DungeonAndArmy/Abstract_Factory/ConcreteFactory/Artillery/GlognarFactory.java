@@ -8,7 +8,10 @@ public class GlognarFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Glognar glognar = new Glognar();
-        //Hacer el set de la vida, defensa y ataque
+        glognar.setMove(3);
+        glognar.setLife(3);
+        glognar.setDefense(4);
+        glognar.setAttack(4);
         return glognar;
     }
 }

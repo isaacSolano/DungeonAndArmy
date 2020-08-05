@@ -8,7 +8,10 @@ public class BoraFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Bora bora = new Bora();
-        //Hacer el set de la vida, defensa y ataque
+        bora.setMove(4);
+        bora.setLife(4);
+        bora.setDefense(7);
+        bora.setAttack(3);
         return bora;
     }
 }

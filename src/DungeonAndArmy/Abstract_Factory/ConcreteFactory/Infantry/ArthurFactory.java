@@ -8,7 +8,11 @@ public class ArthurFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Arthur arthur = new Arthur();
-        //Hacer el set de la vida, defensa y ataque
+        arthur.setMove(5);
+        arthur.setLife(5);
+        arthur.setDefense(1);
+        arthur.setAttack(1);
+
         return arthur;
     }
 }

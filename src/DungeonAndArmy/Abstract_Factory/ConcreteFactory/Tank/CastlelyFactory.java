@@ -8,7 +8,12 @@ public class CastlelyFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Castlely castlely = new Castlely();
-        //Hacer el set de la vida, defensa y ataque
+
+        castlely.setMove(2);
+        castlely.setLife(2);
+        castlely.setDefense(15);
+        castlely.setAttack(5);
+
         return castlely;
     }
 }

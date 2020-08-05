@@ -8,7 +8,11 @@ public class BrienneFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Brienne brienne = new Brienne();
-        //Hacer el set de la vida, defensa y ataque
+        brienne.setMove(4);
+        brienne.setLife(4);
+        brienne.setDefense(2);
+        brienne.setAttack(1);
+
         return brienne;
     }
 }

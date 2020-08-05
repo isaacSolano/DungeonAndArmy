@@ -8,7 +8,11 @@ public class ArrynFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Arryn arryn = new Arryn();
-        //Hacer el set de la vida, defensa y ataque
+        arryn.setMove(1);
+        arryn.setLife(1);
+        arryn.setDefense(5);
+        arryn.setAttack(3);
+
         return arryn;
     }
 }

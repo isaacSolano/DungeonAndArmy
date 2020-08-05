@@ -8,7 +8,12 @@ public class SiddonFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Siddon siddon = new Siddon();
-        //Hacer el set de la vida, defensa y ataque
+
+        siddon.setMove(1);
+        siddon.setLife(1);
+        siddon.setDefense(8);
+        siddon.setAttack(8);
+
         return siddon;
     }
 }

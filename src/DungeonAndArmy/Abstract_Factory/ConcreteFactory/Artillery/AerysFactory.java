@@ -9,7 +9,10 @@ public class AerysFactory implements Army {
     @Override
     public Soldier createSoldier() {
         Aerys aerys = new Aerys();
-        //Hacer el set de la vida, defensa y ataque
+        aerys.setMove(4);
+        aerys.setLife(4);
+        aerys.setDefense(10);
+        aerys.setAttack(3);
         return aerys;
     }
 }
