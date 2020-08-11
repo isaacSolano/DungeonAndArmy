@@ -1,10 +1,12 @@
 package DungeonAndArmy.Helper;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 
 public class AlertHelper {
-    public AlertHelper(){
+    private DialogPane dialog;
 
+    public AlertHelper(){
     }
 
 
@@ -18,6 +20,10 @@ public class AlertHelper {
         alert.setHeaderText("No se puede completar la accion");
         alert.setContentText(body);
 
+        dialog = alert.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource( "/DungeonAndArmy/Styles/Dialog.css").toExternalForm() );
+        dialog.getStyleClass().add("alert");
+
         return alert;
     }
 
@@ -26,6 +32,10 @@ public class AlertHelper {
         alert.setTitle("Information");
         alert.setHeaderText(header);
         alert.setContentText(body);
+
+        dialog = alert.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource( "/DungeonAndArmy/Styles/Dialog.css").toExternalForm() );
+        dialog.getStyleClass().add("alert");
 
         return alert;
     }

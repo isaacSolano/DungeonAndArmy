@@ -1,0 +1,27 @@
+.alert{
+    -fx-background-color: #dfe6e9;
+    -fx-font-size: 13;
+}
+.alert .button{
+    -fx-background-color: #7f8c8d;
+    -fx-text-fill: #2c3e50;
+    -fx-cursor: hand;
+    -fx-border-radius: 0px;
+    -fx-border-color: #7f8c8d;
+    -fx-font-size: 13;
+    -fx-cursor: hand;
+}
+
+.alert .label{
+    -fx-text-fill: #2c3e50;
+}
+
+.alert > *.button-bar > *.container{
+    -fx-background-color: #dfe6e9;
+}
+.alert:header *.header-panel{
+    -fx-background-color: #dfe6e9;
+}
+.alert:header *.header-panel *.label{
+    -fx-text-fill: #2c3e50;
+}
