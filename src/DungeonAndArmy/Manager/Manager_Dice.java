@@ -27,6 +27,7 @@ public class Manager_Dice {
         player.addDice(actionDie.clone());
         player.addDice(summoningDie.clone());
 
+
 //        player.addDice(actionDie.clone());
 //        player.addDice(summoningDie.clone());
 //        player.addDice(summoningDie.clone());
@@ -35,4 +36,6 @@ public class Manager_Dice {
 	public Dice getNumDie() {
         return movementDie.clone();
 	}
+
+
 }

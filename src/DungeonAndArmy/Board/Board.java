@@ -18,6 +18,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -64,12 +65,12 @@ public class Board {
      ****************************************************************************/
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if(secondsPassed >= 15){
+            if(secondsPassed >= 30){
                 secondsPassed = 0;
                 manager_player.changePlayer(playerA, playerB);
                 bAddMonster = null;
             }
-            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (15 - secondsPassed) + " segundos de juego");
+            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (30 - secondsPassed) + " segundos de juego");
             secondsPassed++;
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -167,18 +168,47 @@ public class Board {
      ****************************************************************************/
     public void getPosition(ActionEvent e){
         Button btnPosition = (Button) e.getSource();
+        int inicio = 0;
+        int fin = 0;
+        int total = inicio - fin;
+        ArrayList<Integer> dados = new ArrayList();
+        int n = manager_player.getCurrentPlayer().countMovementDice();
 
         if(bMoveMonsterEnd){
             moveMonsterEnd(btnPosition.getId());
+            fin = Integer.parseInt(btnPosition.getId());
+
         }
 
         if (bMoveMonsterInit) {
             moveMonsterInit(btnPosition.getId());
+            inicio = Integer.parseInt(btnPosition.getId());
+
         }
 
         if(bAddMonster != null) {
+
             addMonster(btnPosition);
+            manager_player.discountMovementDices(movementDice.getId());
+
         }
+
+        //INTENTO DE DADOS MOVIMIENTO
+
+        /*for(int i =0; i <= fileManager.getArrImagesMovementDice().size(); i++){
+            dados.add(i+1);
+        }
+
+        if(bAddMonster != null) {
+            for(Integer caraDado: dados){
+                if (caraDado >= total){
+                    addMonster(btnPosition);
+                    manager_player.discountMovementDices(movementDice.getId());
+                }
+            }
+        }*/
+
+
     }
 
     /****************************************************************************
@@ -207,6 +237,7 @@ public class Board {
      ****************************************************************************/
     public void moveMonsterEnd(String coords){
         if( manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board, totalMovement) ){
+
         }else{
             Alert alert = alertHelper.createErr("No se puede mover el monstruo", "Necesita colocarlo sobre un camino");
             alert.showAndWait();
@@ -237,7 +268,7 @@ public class Board {
         String description = "Cantidad ";
         CofferBox.setVisible(true);
 
-        if (manager_player.getCurrentPlayer().countMovementDice() == 0){
+        /*if (manager_player.getCurrentPlayer().countMovementDice() == 0){
             movementDice.setVisible(false);
             movementLabel.setVisible(false);
         }
@@ -255,7 +286,7 @@ public class Board {
         if (manager_player.getCurrentPlayer().countSummoningDice() == 0){
             summonLabel.setVisible(false);
             summonDice.setVisible(false);
-        }
+        }*/
 
         movementLabel.setText(description + manager_player.getCurrentPlayer().countMovementDice() );
         specialLabel.setText(description + manager_player.getCurrentPlayer().countSpecialDice() );
@@ -333,6 +364,7 @@ public class Board {
         if(n >= 2){
             InfantryBox.setVisible(true);
             CategoryBox.setVisible(false);
+            manager_player.discountSummonigDices("Infanteria",2);
         }else{
             Alert alert = alertHelper.createErr("", "");
             alert.showAndWait();
@@ -351,6 +383,7 @@ public class Board {
         if(n >= 3){
             ArtilleryBox.setVisible(true);
             CategoryBox.setVisible(false);
+            manager_player.discountSummonigDices("Artillero",3);
         }else{
             Alert alert = alertHelper.createErr("", "");
             alert.showAndWait();
@@ -369,6 +402,7 @@ public class Board {
         if(n >= 4){
             TankBox.setVisible(true);
             CategoryBox.setVisible(false);
+            manager_player.discountSummonigDices("Tanque",4);
         }else{
             Alert alert = alertHelper.createErr("", "");
             alert.showAndWait();
@@ -429,6 +463,8 @@ public class Board {
     }
 
     public void move(ActionEvent e) {
+
+
     }
 
     public void showMovementDice(ActionEvent e) {
@@ -483,4 +519,6 @@ public class Board {
             // Seleccionar monstruo, usar ataque especial.
         }
     }
+
+
 }

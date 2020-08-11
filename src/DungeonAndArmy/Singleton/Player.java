@@ -106,7 +106,7 @@ public class Player {
      * @param pDado Dice to move the monster.
      * @return String con el valor que debe mover el dado.
      */
-    public String movePiece(String pDado){
+    /*public String movePiece(String pDado){
 
         for (String dado:movementChest) {
             if(dado.equals(pDado)){
@@ -115,7 +115,7 @@ public class Player {
             }
         }
         return null;
-    }
+    }*/
 
     /**
      *
@@ -178,7 +178,33 @@ public class Player {
         }
         return monsters;
     }
-    
+
+    public void discountSummoningDice(String pDado, int cantBorrar){
+        ArrayList<String> ids = new ArrayList();
+
+        for (String dado:summoningChest) {
+            if(dado.equals(pDado)){
+                ids.add(dado);
+            }
+        }
+
+        for (int i =0; i < cantBorrar; i++){
+            summoningChest.remove(ids.get(i));
+        }
+    }
+
+    public void discountMovementDice(String pDado){
+
+        for (String dado:movementChest) {
+            if(dado.equals(pDado)) {
+                movementChest.remove(dado);
+            }
+        }
+
+    }
+
+
+
     @Override
     public String toString() {
         return "El jugador: " + id + " inicia en la posicion " + basePosition;

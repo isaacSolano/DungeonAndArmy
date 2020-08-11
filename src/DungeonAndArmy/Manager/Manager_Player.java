@@ -35,5 +35,17 @@ public class Manager_Player {
         return currentRound.getPlayer();
     }
 
+    public void discountMovementDices(String pFace){
+
+        getCurrentPlayer().discountMovementDice(pFace);
+    }
+
+    public void discountSummonigDices(String tipo, int cantBorrar){
+
+        getCurrentPlayer().discountSummoningDice(tipo,cantBorrar);
+
+    }
+
+
 
 }
