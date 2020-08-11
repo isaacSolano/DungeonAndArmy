@@ -15,7 +15,6 @@ public class Player {
     private ArrayList<String> movementChest, attackChest, specialChest, summoningChest;
     private Manager_Dice managerDice;
 
-    //CONSTRUCTOR
     public Player(String id, int basePosition) {
         this.id = id;
         this.basePosition = basePosition;
@@ -28,7 +27,6 @@ public class Player {
         specialChest = new ArrayList<>();
     }
 
-    //GETS Y SETS
     public String getId() {
         return id;
     }
@@ -83,9 +81,8 @@ public class Player {
                 break;
             case "Accion":
                 switch (pDice.getFace()){
-
                     case "Movimiento":
-                        if (movementChest.size() <= 3)
+                        if (movementChest.size() < 3)
                             movementChest.add(managerDice.getNumDie().getFace());
                         break;
                     case "Atk":
@@ -157,6 +154,10 @@ public class Player {
         return movementChest;
     }
 
+    public void setMovementChest(ArrayList<String> arrMovementChest){
+        this.movementChest = arrMovementChest;
+    }
+
     /**
      *
      * @return Array with 3 places, one for the artillery, one for infantry, and one for the tanks.
@@ -191,15 +192,6 @@ public class Player {
         for (int i =0; i < delAmm; i++){
             summoningChest.remove(arrFoundTypes.get(i));
         }
-    }
-
-    public void discountMovementDice(String pDado){
-        for (String dado:movementChest) {
-            if(dado.equals(pDado)) {
-                movementChest.remove(dado);
-            }
-        }
-
     }
 
     @Override

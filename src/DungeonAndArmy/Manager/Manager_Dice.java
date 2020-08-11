@@ -20,17 +20,11 @@ public class Manager_Dice {
     /**
      * @param player Jugador al que se le va a agregar los dados.
      */
-    //para gestor player o main
     public void addToPlayer(Player player){
         player.addDice(actionDie.clone());
         player.addDice(actionDie.clone());
         player.addDice(actionDie.clone());
         player.addDice(summoningDie.clone());
-
-
-//        player.addDice(actionDie.clone());
-//        player.addDice(summoningDie.clone());
-//        player.addDice(summoningDie.clone());
     }
 
 	public Dice getNumDie() {

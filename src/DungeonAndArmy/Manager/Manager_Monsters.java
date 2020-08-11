@@ -164,9 +164,9 @@ public class Manager_Monsters {
                 validateMovement = validateMonsterMovement(soldier.getMove());
 
         if(!validateBoxes)
-            result = "No hay suicientes espacios en el camino";
+            result = "No hay suficientes puntos de movimiento";
         else if(!validateMovement)
-            result = "El monstruo no cuenta con el poder movimiento necesario";
+            result = "El monstruo no cuenta con el poder de movimiento necesario";
         else{
             for (aPath path : arrCreatedPaths) {
                 for (String coords : path.getShape().getArrCoords()) {
@@ -175,6 +175,8 @@ public class Manager_Monsters {
                         if (path.getShape().addMonster(Board, newPosition)) {
                             path.getShape().setAction(new RemoveMonster());
                             path.getShape().removeMonster(Board, originCoords);
+                        }else{
+                            result = "No puede mover un monstruo donde no hay camino construido";
                         }
                     }
                 }
@@ -190,19 +192,7 @@ public class Manager_Monsters {
      * @return boolean The final flag which will indicate weather the monster can be moved or not.
      */
     public boolean validateMonsterMovement(int monsterMovement){
-        boolean moved = false;
-
-        System.out.println("Monster movement");
-        System.out.println(monsterMovement);
-
-        System.out.println("curr movement");
-        System.out.println(currentMovement);
-
-        if(currentMovement <= monsterMovement ){
-            moved = true;
-        }
-
-        return moved;
+        return currentMovement <= monsterMovement || false;
     }
 
     /**
@@ -215,8 +205,7 @@ public class Manager_Monsters {
         int posXOrigin = Integer.parseInt( originPosition.split("_")[0] ),
             posYOrigin = Integer.parseInt( originPosition.split("_")[1] ),
             posXNew = Integer.parseInt( newPosition.split("_")[0] ),
-            posYNew = Integer.parseInt( newPosition.split("_")[1] ),
-            remainingMovement = 0;
+            posYNew = Integer.parseInt( newPosition.split("_")[1] );
 
         boolean validated = false;
 
@@ -224,13 +213,11 @@ public class Manager_Monsters {
             if(posXOrigin > posXNew){
                 if(posXOrigin - posXNew <= totalMovement){
                     currentMovement = posXOrigin - posXNew;
-                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }else if(posXOrigin < posXNew){
                 if(posXNew - posXOrigin <= totalMovement){
                     currentMovement = posXNew - posXOrigin;
-                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }
@@ -238,20 +225,15 @@ public class Manager_Monsters {
             if(posYOrigin > posYNew){
                 if(posYOrigin - posYNew <= totalMovement){
                     currentMovement = posYOrigin - posYNew;
-                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }else if(posYOrigin < posYNew){
                 if(posYNew - posYOrigin <= totalMovement){
                     currentMovement = posYNew - posYOrigin;
-                    remainingMovement = totalMovement - currentMovement;
                     validated = true;
                 }
             }
         }
-
-        System.out.println("Cantidad de movimientos sobrantes después de la acción: ");
-        System.out.println(remainingMovement);
 
         return validated;
     }

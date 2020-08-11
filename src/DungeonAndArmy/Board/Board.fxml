@@ -19,8 +19,6 @@
         <Button text="Saltar turno" alignment="center" onAction="#nextRound" fx:id="btnRound" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnAction"/>
         <Label GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         <Button text="Ver Cofre" alignment="center" onAction="#invokeDice" fx:id="btnDice" GridPane.columnIndex="2" GridPane.rowIndex="3" styleClass="btnAction"/>
-        <Label GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-        <Button text="Mover monstruo" alignment="center" fx:id="btnMovement" GridPane.columnIndex="2" GridPane.rowIndex="5" styleClass="btnAction" visible="false" />
     </GridPane>
 
     <GridPane fx:id="PathBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
@@ -35,7 +33,7 @@
     </GridPane>
 
     <GridPane fx:id="CategoryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
-        <Button onAction="#invokeInfantery" onMouseEntered="#createPopOver" onMouseExited="#removePopOver" fx:id="Infantry" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
+        <Button onAction="#invokeInfantery" fx:id="Infantry" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnCamino" />
         <Label fx:id="infantryCount" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
         <Button onAction="#invokeArtillery" fx:id="Artillery" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnCamino" />
@@ -86,9 +84,9 @@
     </GridPane>
 
     <GridPane fx:id="CofferMovement" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
-        <Button onAction="#move" fx:id="movement1" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Button onAction="#move" fx:id="movement2" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-        <Button onAction="#move" fx:id="movement3" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <Button onAction="#startMovement" fx:id="btnMove_0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button onAction="#startMovement" fx:id="btnMove_1" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Button onAction="#startMovement" fx:id="btnMove_2" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
     </GridPane>
 
 </GridPane>

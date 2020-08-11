@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
-    private ArrayList<ImageView> arrImagesMovementDice = new ArrayList<>();
     private ArrayList<ImageView> arrImagesActions = new ArrayList<>();
+    private ArrayList<String> arrUrlImagesMovementDices = new ArrayList<>();
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/Path/L.png") );
@@ -38,17 +38,17 @@ public class FileManager {
         arrImagesMonsters.add( resizeImage("Media/Army/Infantry.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Tanks.png") );
 
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice1.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice2.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice3.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice4.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice5.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice6.png"));
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice1.png" );
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice2.png" );
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice3.png" );
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice4.png" );
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice5.png" );
+        arrUrlImagesMovementDices.add( "Media/Dice/Movement/Dice6.png");
 
         arrImagesActions.add( resizeImage("Media/Dice/Options/Movement.png") );
         arrImagesActions.add( resizeImage("Media/Dice/Options/Attack.png") );
-        arrImagesActions.add( resizeImage("Media/Dice/Options/Special.png") );
         arrImagesActions.add( resizeImage("Media/Dice/Options/Summoning.png") );
+        arrImagesActions.add( resizeImage("Media/Dice/Options/Special.png") );
     }
 
     public ImageView resizeImage(String url){
@@ -68,8 +68,8 @@ public class FileManager {
         return this.arrImagesMonsters;
     }
 
-    public ArrayList<ImageView> getArrImagesMovementDice() {
-        return this.arrImagesMovementDice;
+    public ImageView getArrImagesMovementDice(int pos) {
+        return resizeImage( arrUrlImagesMovementDices.get(pos) );
     }
 
     public ArrayList<ImageView> getArrImagesActions(){

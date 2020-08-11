@@ -1,13 +1,17 @@
 package DungeonAndArmy.Manager;
 
+import DungeonAndArmy.Observer.Concrete.Observer;
+import DungeonAndArmy.Observer.Concrete.Subject;
 import DungeonAndArmy.Singleton.Player;
 import DungeonAndArmy.Singleton.Round;
 
 public class Manager_Player {
     private Manager_Dice managerDice = new Manager_Dice();
-
+    private Subject subject = new Subject();
     Round currentRound;
+
     public Manager_Player() {
+        subject.addObserver( new Observer() );
     }
 
     public String assingRound(Player player){
@@ -35,8 +39,8 @@ public class Manager_Player {
         return currentRound.getPlayer();
     }
 
-    public void discountMovementDices(String pFace){
-        getCurrentPlayer().discountMovementDice(pFace);
+    public void discountMovementDices(int idDice){
+        subject.setState(idDice);
     }
 
     public void discountSummonigDices(String type, int delAmm){

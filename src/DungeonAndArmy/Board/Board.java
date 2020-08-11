@@ -18,9 +18,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ public class Board {
     public Button Aerys, Arryn, Arthur, Boko, Bora, Brienne, Bronn, Castlely, Forerunner, Glognar, Helms, Obara, Rhageon, Siddon, Varys;
     public Button Infantry, Artillery, Tanks;
     public Button MovementDice, AttackDice, SummonDice, SpecialDice;
-    public Button movement1, movement2, movement3, btnMovement;
+    public Button btnMove_0, btnMove_1, btnMove_2;
 
     public Label txtTimer;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
@@ -52,11 +50,14 @@ public class Board {
 
     private Integer[] actionPosition = new Integer[2];
 
+    ArrayList<Button> arrBtnMovement = new ArrayList<>();
+
     private String selectedMonster = "";
 
     private int secondsPassed = 0;
     private int pathRotation = 0;
     private int totalMovement = 0;
+    private int idDice;
 
     private Timer timer = new Timer();
 
@@ -82,7 +83,8 @@ public class Board {
                 TankBox.setVisible(false);
                 CofferBox.setVisible(false);
                 CofferMovement.setVisible(false);
-                btnMovement.setVisible(false);
+
+                refreshDices();
             }
             txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (30 - secondsPassed) + " segundos de juego");
             secondsPassed++;
@@ -127,18 +129,23 @@ public class Board {
         Infantry.setGraphic( fileManager.getArrImagesMonsters().get(16) );
         Tanks.setGraphic( fileManager.getArrImagesMonsters().get(17) );
 
-        AttackDice.setGraphic( fileManager.getArrImagesActions().get(0) );
-        MovementDice.setGraphic( fileManager.getArrImagesActions().get(1) );
-        SpecialDice.setGraphic( fileManager.getArrImagesActions().get(2) );
-        SummonDice.setGraphic( fileManager.getArrImagesActions().get(3) );
+        MovementDice.setGraphic( fileManager.getArrImagesActions().get(0) );
+        AttackDice.setGraphic( fileManager.getArrImagesActions().get(1) );
+        SummonDice.setGraphic( fileManager.getArrImagesActions().get(2) );
+        SpecialDice.setGraphic( fileManager.getArrImagesActions().get(3) );
+
+        arrBtnMovement.add(btnMove_0);
+        arrBtnMovement.add(btnMove_1);
+        arrBtnMovement.add(btnMove_2);
     }
 
-    public void createPopOver(MouseEvent e){
-        Button btn = (Button) e.getSource();
-    }
-
-    public void removePopOver(MouseEvent e){
-        Button btn = (Button) e.getSource();
+    /****************************************************************************
+     * Function which will refresh the images inside the dices buttons.
+     ****************************************************************************/
+    private void refreshDices() {
+        for(Button btnMovement : arrBtnMovement){
+            btnMovement.setGraphic(null);
+        }
     }
 
     /****************************************************************************
@@ -234,10 +241,13 @@ public class Board {
         if(!result.equals("")){
             Alert alert = alertHelper.createErr(result);
             alert.showAndWait();
+        }else{
+            manager_player.discountMovementDices(idDice);
+            refreshDices();
         }
 
+        CofferMovement.setVisible(false);
         bMoveMonsterEnd = false;
-        btnMovement.setVisible(false);
     }
 
     /****************************************************************************
@@ -277,7 +287,6 @@ public class Board {
         specialLabel.setText(description + manager_player.getCurrentPlayer().countSpecialDice() );
         attackLabel.setText(description + manager_player.getCurrentPlayer().countAttackDice() );
         summonLabel.setText(description + manager_player.getCurrentPlayer().countSummoningDice() );
-        CofferMovement.setVisible(false);
     }
 
     /****************************************************************************
@@ -296,25 +305,6 @@ public class Board {
             tankCount.setText(description + monsters[2] );
         } else {
             Alert alert = alertHelper.createErr("No tiene dados almacenados para invocar.");
-            alert.showAndWait();
-        }
-    }
-
-    /****************************************************************************
-     * Function that will pop-up an alert to the user indicating to select from the board
-     * the desired monster to move.
-     ****************************************************************************/
-    public void showMoveAlert(ActionEvent e, Integer[] movement){
-        for(Integer n : movement){
-            totalMovement += n+1;
-        }
-
-        if (manager_player.getCurrentPlayer().getArrMonsters().size() != 0) {
-            bMoveMonsterInit = true;
-            Alert alert = alertHelper.createInfo("Mover monstruo", "Seleccione el monstruo que desea mover");
-            alert.showAndWait();
-        }else{
-            Alert alert = alertHelper.createErr("Debe primero invocar monstruos");
             alert.showAndWait();
         }
     }
@@ -448,63 +438,46 @@ public class Board {
         T.setRotate(pathRotation);
     }
 
-    public void move(ActionEvent e) {
+    /****************************************************************************
+     * Function that will pop-up an alert to the user indicating to select from the board
+     * the desired monster to move.
+     ****************************************************************************/
+    public void startMovement(ActionEvent e) {
+        Button btnMovementDice = (Button) e.getSource();
+        idDice = Integer.valueOf( btnMovementDice.getId().split("_")[1] );
+        totalMovement = Integer.valueOf( manager_player.getCurrentPlayer().getMovementDice().get(idDice) ) + 1;
 
-
+        if (manager_player.getCurrentPlayer().getArrMonsters().size() != 0) {
+            bMoveMonsterInit = true;
+            Alert alert = alertHelper.createInfo("Mover monstruo", "Seleccione el monstruo que desea mover");
+            alert.showAndWait();
+        }else{
+            Alert alert = alertHelper.createErr("Debe primero invocar monstruos");
+            alert.showAndWait();
+        }
     }
 
+    /****************************************************************************
+     * Function that will show the different dices according to the values saved
+     * on the user chest.
+     ****************************************************************************/
     public void showMovementDice(ActionEvent e) {
-        totalMovement = 0;
-        movement1.setVisible(false);
-        movement2.setVisible(false);
-        movement3.setVisible(false);
         CofferMovement.setVisible(true);
-        ArrayList<String> movementDice = manager_player.getCurrentPlayer().getMovementDice();
-        int count = movementDice.size();
-        if (count == 3) {
-            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
-            movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
-            movement3.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(2))));
 
-            movement1.setVisible(true);
-            movement2.setVisible(true);
-            movement3.setVisible(true);
-            btnMovement.setVisible(true);
-
-            btnMovement.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0)), Integer.parseInt(movementDice.get(1)), Integer.parseInt(movementDice.get(2))}) );
-        }else if (count > 1){
-            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
-            movement2.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(1))));
-
-            movement1.setVisible(true);
-            movement2.setVisible(true);
-            btnMovement.setVisible(true);
-
-            btnMovement.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0)), Integer.parseInt(movementDice.get(1))}) );
-        }else{
-            movement1.setGraphic(fileManager.getArrImagesMovementDice().get(Integer.parseInt(movementDice.get(0))));
-
-            movement1.setVisible(true);
-            btnMovement.setVisible(true);
-
-            btnMovement.setOnAction(ev -> showMoveAlert(ev, new Integer[]{Integer.parseInt(movementDice.get(0))}) );
+        for(int i = 0; i < manager_player.getCurrentPlayer().getMovementDice().size(); i++ ){
+            arrBtnMovement.get(i).setGraphic( fileManager.getArrImagesMovementDice( Integer.parseInt(manager_player.getCurrentPlayer().getMovementDice().get(i)) ));
+            arrBtnMovement.get(i).setVisible(true);
         }
 
+        totalMovement = 0;
         CofferBox.setVisible(false);
     }
 
     public void attack(ActionEvent actionEvent) {
-        if (manager_player.getCurrentPlayer().countAttackDice() > 0){
-            // Procedimiento de ataque, selecciona un monstruo, apunta al monstruo adyacente que desea atacar,
-            // calcular daño
-        }
+        if (manager_player.getCurrentPlayer().countAttackDice() > 0){ }
     }
 
     public void useSpecial(ActionEvent actionEvent) {
-        if (manager_player.getCurrentPlayer().countSpecialDice() > 0){
-            // Seleccionar monstruo, usar ataque especial.
-        }
+        if (manager_player.getCurrentPlayer().countSpecialDice() > 0){ }
     }
-
-
 }
