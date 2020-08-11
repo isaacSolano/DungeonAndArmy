@@ -179,22 +179,21 @@ public class Player {
         return monsters;
     }
 
-    public void discountSummoningDice(String pDado, int cantBorrar){
-        ArrayList<String> ids = new ArrayList();
+    public void discountSummoningDice(String type, int delAmm){
+        ArrayList<String> arrFoundTypes = new ArrayList();
 
         for (String dado:summoningChest) {
-            if(dado.equals(pDado)){
-                ids.add(dado);
+            if(dado.equals(type)){
+                arrFoundTypes.add(dado);
             }
         }
 
-        for (int i =0; i < cantBorrar; i++){
-            summoningChest.remove(ids.get(i));
+        for (int i =0; i < delAmm; i++){
+            summoningChest.remove(arrFoundTypes.get(i));
         }
     }
 
     public void discountMovementDice(String pDado){
-
         for (String dado:movementChest) {
             if(dado.equals(pDado)) {
                 movementChest.remove(dado);
@@ -202,8 +201,6 @@ public class Player {
         }
 
     }
-
-
 
     @Override
     public String toString() {

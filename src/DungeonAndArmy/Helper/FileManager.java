@@ -8,30 +8,11 @@ public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMovementDice = new ArrayList<>();
-    private final ImageView movement = resizeImage("Media/Dice/Options/movement.png");
-    private final ImageView attack = resizeImage("Media/Dice/Options/attack.png");
-    private final ImageView special = resizeImage("Media/Dice/Options/special.png");
-    private final ImageView summoning = resizeImage("Media/Dice/Options/summoning.png");
-
-    public ImageView getMovement() {
-        return movement;
-    }
-
-    public ImageView getAttack() {
-        return attack;
-    }
-
-    public ImageView getSpecial() {
-        return special;
-    }
-
-    public ImageView getSummoning() {
-        return summoning;
-    }
+    private ArrayList<ImageView> arrImagesActions = new ArrayList<>();
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/Path/L.png") );
-        arrImagesPaths.add( resizeImage("Media/Path/Cruz.png") );
+        arrImagesPaths.add( resizeImage("Media/Path/Cross.png") );
         arrImagesPaths.add( resizeImage("Media/Path/Z.png") );
         arrImagesPaths.add( resizeImage("Media/Path/P.png") );
         arrImagesPaths.add( resizeImage("Media/Path/U.png") );
@@ -53,17 +34,21 @@ public class FileManager {
         arrImagesMonsters.add( resizeImage("Media/Army/Siddon.png") );
         arrImagesMonsters.add( resizeImage("Media/Army/Varys.png") );
 
-        arrImagesMonsters.add( resizeImage("Media/Army/Artillery.jpeg") );
-        arrImagesMonsters.add( resizeImage("Media/Army/Infantry.jpeg") );
-        arrImagesMonsters.add( resizeImage("Media/Army/Tanks.jpeg") );
+        arrImagesMonsters.add( resizeImage("Media/Army/Artillery.png") );
+        arrImagesMonsters.add( resizeImage("Media/Army/Infantry.png") );
+        arrImagesMonsters.add( resizeImage("Media/Army/Tanks.png") );
 
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice1.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice2.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice3.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice4.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice5.png"));
-        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/dice6.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice1.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice2.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice3.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice4.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice5.png"));
+        arrImagesMovementDice.add( resizeImage("Media/Dice/Movement/Dice6.png"));
 
+        arrImagesActions.add( resizeImage("Media/Dice/Options/Movement.png") );
+        arrImagesActions.add( resizeImage("Media/Dice/Options/Attack.png") );
+        arrImagesActions.add( resizeImage("Media/Dice/Options/Special.png") );
+        arrImagesActions.add( resizeImage("Media/Dice/Options/Summoning.png") );
     }
 
     public ImageView resizeImage(String url){
@@ -75,7 +60,7 @@ public class FileManager {
         return image;
     }
 
-    public ArrayList<ImageView> getPathImages(){
+    public ArrayList<ImageView> getArrImagesPath(){
         return this.arrImagesPaths;
     }
 
@@ -85,5 +70,9 @@ public class FileManager {
 
     public ArrayList<ImageView> getArrImagesMovementDice() {
         return this.arrImagesMovementDice;
+    }
+
+    public ArrayList<ImageView> getArrImagesActions(){
+        return this.arrImagesActions;
     }
 }

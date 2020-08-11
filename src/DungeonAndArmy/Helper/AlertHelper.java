@@ -9,14 +9,13 @@ public class AlertHelper {
 
 
     /**
-     * @param header Header content.
      * @param body Body content.
      * @return Alert that will pop up on the screen.
      */
-    public Alert createErr(String header, String body){
+    public Alert createErr(String body){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText(header);
+        alert.setHeaderText("No se puede completar la accion");
         alert.setContentText(body);
 
         return alert;

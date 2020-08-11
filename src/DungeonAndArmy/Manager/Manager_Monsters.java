@@ -155,15 +155,19 @@ public class Manager_Monsters {
      * @param arrCreatedPaths The Array of created paths of the current player.
      * @param Board The main board.
      * @param totalMovement Total spaces available to move the monster.
-     * @return boolean The final flag which will indicate weather the monster have been moved or not.
+     * @return String The final result status of the operation.
      */
-    public boolean moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board, int totalMovement){
+    public String moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board, int totalMovement){
         String originCoords = soldier.getCoords();
-        boolean moved = false,
-                validateBoxes = validateBoxes(originCoords, newPosition, totalMovement),
+        String result = "";
+        boolean validateBoxes = validateBoxes(originCoords, newPosition, totalMovement),
                 validateMovement = validateMonsterMovement(soldier.getMove());
 
-        if(validateBoxes && validateMovement) {
+        if(!validateBoxes)
+            result = "No hay suicientes espacios en el camino";
+        else if(!validateMovement)
+            result = "El monstruo no cuenta con el poder movimiento necesario";
+        else{
             for (aPath path : arrCreatedPaths) {
                 for (String coords : path.getShape().getArrCoords()) {
                     if (coords.equals(soldier.getCoords())) {
@@ -171,8 +175,6 @@ public class Manager_Monsters {
                         if (path.getShape().addMonster(Board, newPosition)) {
                             path.getShape().setAction(new RemoveMonster());
                             path.getShape().removeMonster(Board, originCoords);
-
-                            moved = true;
                         }
                     }
                 }
@@ -180,7 +182,7 @@ public class Manager_Monsters {
         }
 
         currentMovement = 0;
-        return moved;
+        return result;
     }
 
     /**
@@ -208,8 +210,6 @@ public class Manager_Monsters {
      * @param newPosition The new position id.
      * @param totalMovement Total spaces available to move the monster.
      * @return boolean The final flag which will indicate weather the monster can be moved or not.
-     *
-     * currentMovement = lo que el usuario quiere mover.
      */
     public boolean validateBoxes(String originPosition, String newPosition, int totalMovement){
         int posXOrigin = Integer.parseInt( originPosition.split("_")[0] ),

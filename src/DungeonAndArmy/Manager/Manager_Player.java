@@ -36,14 +36,11 @@ public class Manager_Player {
     }
 
     public void discountMovementDices(String pFace){
-
         getCurrentPlayer().discountMovementDice(pFace);
     }
 
-    public void discountSummonigDices(String tipo, int cantBorrar){
-
-        getCurrentPlayer().discountSummoningDice(tipo,cantBorrar);
-
+    public void discountSummonigDices(String type, int delAmm){
+        getCurrentPlayer().discountSummoningDice(type, delAmm);
     }
 
 
