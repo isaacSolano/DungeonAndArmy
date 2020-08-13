@@ -17,7 +17,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -34,7 +36,7 @@ public class Board {
     public Button MovementDice, AttackDice, SummonDice, SpecialDice;
     public Button btnMove_0, btnMove_1, btnMove_2;
 
-    public Label txtTimer;
+    public Label txtTimer, txtImage;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
     public Label tankCount, artilleryCount, infantryCount;
 
@@ -58,6 +60,7 @@ public class Board {
     private int pathRotation = 0;
     private int totalMovement = 0;
     private int idDice;
+    private int roundTime = 60;
 
     private Timer timer = new Timer();
 
@@ -72,7 +75,7 @@ public class Board {
      ****************************************************************************/
     public void start(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if(secondsPassed >= 30){
+            if(secondsPassed >= roundTime){
                 secondsPassed = 0;
                 manager_player.changePlayer(playerA, playerB);
                 bAddMonster = null;
@@ -86,7 +89,9 @@ public class Board {
 
                 refreshDices();
             }
-            txtTimer.setText("Jugador: " + manager_player.getCurrentPlayer().getId() + ", le quedan: " + (30 - secondsPassed) + " segundos de juego");
+
+            txtImage.setGraphic( manager_player.getCurrentPlayer().getBaseIcon() );
+            txtTimer.setText( "\n" + (roundTime - secondsPassed) + " segundos de juego" );
             secondsPassed++;
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -101,12 +106,12 @@ public class Board {
         createBoard();
         createBases();
 
-        L.setGraphic( fileManager.getArrImagesPath().get(0) );
-        Cruz.setGraphic( fileManager.getArrImagesPath().get(1) );
-        Z.setGraphic( fileManager.getArrImagesPath().get(2) );
-        P.setGraphic( fileManager.getArrImagesPath().get(3) );
-        U.setGraphic( fileManager.getArrImagesPath().get(4) );
-        T.setGraphic( fileManager.getArrImagesPath().get(5) );
+        L.setGraphic( fileManager.getArrImagesPaths().get(0) );
+        Cruz.setGraphic( fileManager.getArrImagesPaths().get(1) );
+        Z.setGraphic( fileManager.getArrImagesPaths().get(2) );
+        P.setGraphic( fileManager.getArrImagesPaths().get(3) );
+        U.setGraphic( fileManager.getArrImagesPaths().get(4) );
+        T.setGraphic( fileManager.getArrImagesPaths().get(5) );
 
 
         Aerys.setGraphic( fileManager.getArrImagesMonsters().get(0) );
@@ -175,16 +180,34 @@ public class Board {
      ****************************************************************************/
     public void createBases(){
         int basePositionA = helper.getRandom(20);
-        Button Base1 = new Button("A");
-        Base1.getStyleClass().add("base");
-        Board.add(Base1, basePositionA, 0);
-        playerA = new Player("A",basePositionA);
-
         int basePositionB = helper.getRandom(20);
-        Button Base2 = new Button("B");
-        Base2.getStyleClass().add("base");
-        Board.add(Base2, basePositionB, 21);
-        playerB = new Player("B",basePositionB);
+
+        Button btnBaseA = new Button("");
+        Button btnBaseB = new Button("");
+
+        btnBaseA.getStyleClass().add("rows");
+        btnBaseB.getStyleClass().add("rows");
+
+        btnBaseA.getStyleClass().add("natural-color");
+        btnBaseB.getStyleClass().add("natural-color");
+
+        ImageView imgIconA = fileManager.getArrImageBases("A");
+        ImageView imgIconB = fileManager.getArrImageBases("B");
+
+        imgIconA.setFitWidth(20);
+        imgIconA.setFitHeight(20);
+
+        imgIconB.setFitWidth(20);
+        imgIconB.setFitHeight(20);
+
+        btnBaseA.setGraphic( imgIconA );
+        btnBaseB.setGraphic( imgIconB );
+
+        Board.add(btnBaseA, basePositionA, 0);
+        Board.add(btnBaseB, basePositionB, 21);
+
+        playerA = new Player("A", basePositionA, fileManager.getArrImageBases("A"));
+        playerB = new Player("B", basePositionB, fileManager.getArrImageBases("B"));
 
         manager_player.assingRound(playerA);
         start();
@@ -220,10 +243,10 @@ public class Board {
         moveSoldier = manager_monsters.getMonster( currCoords, manager_player.getCurrentPlayer().getArrMonsters() );
 
         if(moveSoldier == null){
-            Alert alert = alertHelper.createErr("No existe un monstruo en su armada en la posicion indicada");
+            Alert alert = alertHelper.createErr("No existe un monstruo en su armada, en la posición indicada");
             alert.showAndWait();
         }else {
-            Alert alert = alertHelper.createInfo("Destino", "Seleccione donde desea ubicar el monstruo");
+            Alert alert = alertHelper.createInfo("Destino", "Seleccione dónde desea ubicar el monstruo");
             alert.showAndWait();
 
             bMoveMonsterEnd = true;
@@ -269,7 +292,7 @@ public class Board {
      * @param e The action of the click event.
      ****************************************************************************/
     public void nextRound(ActionEvent e){
-        secondsPassed = 30;
+        secondsPassed = roundTime;
     }
 
     public void invokeDice(ActionEvent e) {
@@ -304,7 +327,7 @@ public class Board {
             infantryCount.setText(description + monsters[1]);
             tankCount.setText(description + monsters[2] );
         } else {
-            Alert alert = alertHelper.createErr("No tiene dados almacenados para invocar.");
+            Alert alert = alertHelper.createErr("No tiene dados almacenados para invocar");
             alert.showAndWait();
         }
     }
@@ -320,7 +343,7 @@ public class Board {
         bAddMonster = manager_monsters.createMonster( btnMonster.getId(), manager_player.getCurrentPlayer().getArrMonsters() );
 
         if(bAddMonster == null){
-            Alert alert = alertHelper.createErr("El monstruo ya esta listado en su ejercito");
+            Alert alert = alertHelper.createErr("El monstruo ya está listado en su ejército");
             alert.showAndWait();
         }
 
@@ -341,7 +364,7 @@ public class Board {
             CategoryBox.setVisible(false);
             selectedMonster = "Infanteria_2";
         }else{
-            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocacion");
+            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocación");
             alert.showAndWait();
         }
 
@@ -360,7 +383,7 @@ public class Board {
             CategoryBox.setVisible(false);
             selectedMonster = "Artillero_3";
         }else{
-            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocacion");
+            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocación");
             alert.showAndWait();
         }
 
@@ -379,7 +402,7 @@ public class Board {
             CategoryBox.setVisible(false);
             selectedMonster = "Tanque_4";
         }else{
-            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocacion");
+            Alert alert = alertHelper.createErr("No cuenta con los dados suficientes para esta invocación");
             alert.showAndWait();
         }
 
@@ -409,7 +432,7 @@ public class Board {
             iShape shape = manager_path.createShape(actionPosition, pathRotation, btnPath.getId(), Board, playerA.getArrPaths(), playerB.getArrPaths(), bAddMonster);
 
             if (shape == null && manager_player.getCurrentPlayer().getArrPaths().size() != 0) {
-                Alert alert = alertHelper.createErr("No hay suficientes espacios o no esta conectado a otros caminos");
+                Alert alert = alertHelper.createErr("No hay suficientes espacios o no está conectado a otros caminos");
                 alert.showAndWait();
             } else {
                 aPath path = manager_path.createNewPath(shape, btnPath.getId());

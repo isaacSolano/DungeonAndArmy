@@ -5,9 +5,10 @@ import DungeonAndArmy.Manager.Manager_Dice;
 import DungeonAndArmy.Prototype.iPrototype.aPath;
 import java.util.ArrayList;
 import DungeonAndArmy.Prototype.iPrototype.Dice;
+import javafx.scene.image.ImageView;
 
 public class Player {
-
+    private ImageView baseIcon;
     private String id;
     private int basePosition;
     private ArrayList<aPath> arrPaths;
@@ -15,7 +16,8 @@ public class Player {
     private ArrayList<String> movementChest, attackChest, specialChest, summoningChest;
     private Manager_Dice managerDice;
 
-    public Player(String id, int basePosition) {
+    public Player(String id, int basePosition, ImageView baseIcon) {
+        this.baseIcon = baseIcon;
         this.id = id;
         this.basePosition = basePosition;
         arrPaths = new ArrayList<>();
@@ -41,6 +43,16 @@ public class Player {
 
     public void setBasePosition(int basePosition) {
         this.basePosition = basePosition;
+    }
+
+    public ImageView getBaseIcon() {
+        this.baseIcon.setFitWidth(45);
+        this.baseIcon.setFitHeight(45);
+        return this.baseIcon;
+    }
+
+    public void setBaseIcon(ImageView baseIcon) {
+        this.baseIcon = baseIcon;
     }
 
     public ArrayList<aPath> getArrPaths() {

@@ -3,12 +3,14 @@ package DungeonAndArmy.Helper;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FileManager {
     private ArrayList<ImageView> arrImagesPaths = new ArrayList<>();
     private ArrayList<ImageView> arrImagesMonsters = new ArrayList<>();
     private ArrayList<ImageView> arrImagesActions = new ArrayList<>();
     private ArrayList<String> arrUrlImagesMovementDices = new ArrayList<>();
+    private HashMap<String, String> arrUrlImagesBases = new HashMap<>();
 
     public FileManager(){
         arrImagesPaths.add( resizeImage("Media/Path/L.png") );
@@ -49,6 +51,9 @@ public class FileManager {
         arrImagesActions.add( resizeImage("Media/Dice/Options/Attack.png") );
         arrImagesActions.add( resizeImage("Media/Dice/Options/Summoning.png") );
         arrImagesActions.add( resizeImage("Media/Dice/Options/Special.png") );
+
+        arrUrlImagesBases.put("A", "Media/Bases/Base_A.png" );
+        arrUrlImagesBases.put("B", "Media/Bases/Base_B.png" );
     }
 
     public ImageView resizeImage(String url){
@@ -60,7 +65,7 @@ public class FileManager {
         return image;
     }
 
-    public ArrayList<ImageView> getArrImagesPath(){
+    public ArrayList<ImageView> getArrImagesPaths(){
         return this.arrImagesPaths;
     }
 
@@ -74,5 +79,9 @@ public class FileManager {
 
     public ArrayList<ImageView> getArrImagesActions(){
         return this.arrImagesActions;
+    }
+
+    public ImageView getArrImageBases(String pos){
+        return new ImageView( String.valueOf(arrUrlImagesBases.get(pos)) );
     }
 }

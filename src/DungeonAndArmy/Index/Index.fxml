@@ -1,11 +1,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.Label?>
 <GridPane fx:controller="DungeonAndArmy.Index.Index"
           xmlns:fx="http://javafx.com/fxml"
           stylesheets="/DungeonAndArmy/Styles/Styles.css"
           fx:id="MainPane"
           alignment="center" hgap="10" vgap="10">
 
-    <Button text="Start" onAction="#navigateBoard" fx:id="StartBtn" styleClass="btnAction"/>
+    <Label GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="title" GridPane.halignment="CENTER">Dungeon -n- Army</Label>
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="3" text="Comenzar" onAction="#navigateBoard" fx:id="StartBtn" styleClass="btnAction" GridPane.halignment="CENTER"/>
 </GridPane>

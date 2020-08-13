@@ -164,7 +164,7 @@ public class Manager_Monsters {
                 validateMovement = validateMonsterMovement(soldier.getMove());
 
         if(!validateBoxes)
-            result = "No hay suficientes puntos de movimiento";
+            result = "No cuenta con suficientes puntos de movimiento";
         else if(!validateMovement)
             result = "El monstruo no cuenta con el poder de movimiento necesario";
         else{

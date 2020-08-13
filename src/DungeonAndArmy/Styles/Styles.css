@@ -22,21 +22,20 @@
     -fx-pref-height: 30;
     -fx-border-color: #2c3e50;
     -fx-cursor: hand;
+    -fx-padding: 0;
 }
 
 .natural-color{
     -fx-background-color: #3498db;
 }
 
-.base{
-    -fx-pref-width: 30;
-    -fx-pref-height: 30;
-    -fx-border-color: #2c3e50;
-    -fx-background-color: #3498db;
+.title{
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
 }
 
-.btnCamino{
+.btnPath{
     -fx-padding: 0 20px;
     -fx-background-color: transparent;
     -fx-cursor: hand;
