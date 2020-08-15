@@ -153,18 +153,20 @@ public class Manager_Monsters {
      * @param soldier The soldier that will be moved.
      * @param newPosition The new position id.
      * @param arrCreatedPaths The Array of created paths of the current player.
+     * @param arrCreatedMonsters The Array of created monsters of the current player.
      * @param Board The main board.
      * @param totalMovement Total spaces available to move the monster.
      * @return String The final result status of the operation.
      */
-    public String moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, GridPane Board, int totalMovement){
+    public String moveMonster(Soldier soldier, String newPosition, ArrayList<aPath> arrCreatedPaths, ArrayList<Soldier> arrCreatedMonsters, GridPane Board, int totalMovement){
         String originCoords = soldier.getCoords();
-        String result = "";
-        boolean validateBoxes = validateBoxes(originCoords, newPosition, totalMovement),
-                validateMovement = validateMonsterMovement(soldier.getMove());
+        String result = "", resultValidateBoxes = validateBoxes(originCoords, newPosition, totalMovement);
+        boolean validateMovement = validateMonsterMovement(soldier.getMove());
 
-        if(!validateBoxes)
-            result = "No cuenta con suficientes puntos de movimiento";
+        if( getMonster(newPosition, arrCreatedMonsters) != null ){
+            result = "Ya existe un monstruo en esa posición, no puede agregar otro";
+        }else if(!resultValidateBoxes.equals(""))
+            result = resultValidateBoxes;
         else if(!validateMovement)
             result = "El monstruo no cuenta con el poder de movimiento necesario";
         else{
@@ -201,40 +203,38 @@ public class Manager_Monsters {
      * @param totalMovement Total spaces available to move the monster.
      * @return boolean The final flag which will indicate weather the monster can be moved or not.
      */
-    public boolean validateBoxes(String originPosition, String newPosition, int totalMovement){
+    public String validateBoxes(String originPosition, String newPosition, int totalMovement){
         int posXOrigin = Integer.parseInt( originPosition.split("_")[0] ),
             posYOrigin = Integer.parseInt( originPosition.split("_")[1] ),
             posXNew = Integer.parseInt( newPosition.split("_")[0] ),
             posYNew = Integer.parseInt( newPosition.split("_")[1] );
 
-        boolean validated = false;
+        String status = "";
 
         if(posYOrigin == posYNew){
             if(posXOrigin > posXNew){
                 if(posXOrigin - posXNew <= totalMovement){
                     currentMovement = posXOrigin - posXNew;
-                    validated = true;
                 }
             }else if(posXOrigin < posXNew){
                 if(posXNew - posXOrigin <= totalMovement){
                     currentMovement = posXNew - posXOrigin;
-                    validated = true;
                 }
             }
         }else if(posXOrigin == posXNew){
             if(posYOrigin > posYNew){
                 if(posYOrigin - posYNew <= totalMovement){
                     currentMovement = posYOrigin - posYNew;
-                    validated = true;
                 }
             }else if(posYOrigin < posYNew){
                 if(posYNew - posYOrigin <= totalMovement){
                     currentMovement = posYNew - posYOrigin;
-                    validated = true;
                 }
             }
+        }else{
+            status = "No se permiten movimientos en diagonal";
         }
 
-        return validated;
+        return status;
     }
 }

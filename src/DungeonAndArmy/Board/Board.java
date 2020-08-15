@@ -259,7 +259,7 @@ public class Board {
      * @param coords The final coords(To where te monster will be moved).
      ****************************************************************************/
     public void moveMonsterEnd(String coords){
-        String result = manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), Board, totalMovement);
+        String result = manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), manager_player.getCurrentPlayer().getArrMonsters(), Board, totalMovement);
 
         if(!result.equals("")){
             Alert alert = alertHelper.createErr(result);

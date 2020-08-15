@@ -58,7 +58,7 @@ public class L extends iShape {
 
             default:
                 if(actionPosition[0] - 2 > 0 && actionPosition[1] - 2 > 0 ){
-                    for(int i = 1; i < 2; i++){
+                    for(int i = 0; i < 2; i++){
                         String id = actionPosition[0] + "_" + Integer.valueOf(actionPosition[1] - i);
                         addCoords(id);
                     }
