@@ -64,6 +64,11 @@ public class Varys implements Soldier {
     /**
      * set section
      */
+
+    public String getName() {
+        return name;
+    }
+
     public void setMove(int move) {
         this.move = move;
     }

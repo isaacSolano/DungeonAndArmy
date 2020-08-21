@@ -23,6 +23,8 @@ public class RemoveMonster implements iAction {
 
         if(btn.getStyleClass().contains("selected")){
             btn.setGraphic(null);
+            btn.setOnMouseEntered(null);
+            btn.setOnMouseExited(null);
         }
     }
 }

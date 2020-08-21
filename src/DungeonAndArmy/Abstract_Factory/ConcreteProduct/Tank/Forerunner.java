@@ -37,6 +37,11 @@ public class Forerunner implements Soldier {
         return category;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
     public String getCoords() {
         return coords;
     }

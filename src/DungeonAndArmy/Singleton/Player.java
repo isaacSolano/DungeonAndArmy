@@ -98,7 +98,7 @@ public class Player {
 
         switch (pDice.getType()){
             case "Invocacion":
-                if(summoningChest.size() <= 6)
+                if(summoningChest.size() < 6)
                     summoningChest.add(pDice.getFace());
                 break;
             case "Accion":

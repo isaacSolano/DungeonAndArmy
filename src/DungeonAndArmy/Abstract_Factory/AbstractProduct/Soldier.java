@@ -10,6 +10,7 @@ public interface Soldier {
     int getAttack();
     int getDefense();
     int getLife();
+    String getName();
 
     void setDefense(int defense);
     void setLife(int life);

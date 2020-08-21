@@ -293,7 +293,7 @@ public class Board {
             String result = manager_monsters.attackBase(attackMonsterInit.getCoords(), targetPlayer);
 
             if(result.equals("")){
-                Alert alert = alertHelper.createInfo("Ataque exitoso", "La base fue atacada con exito");
+                Alert alert = alertHelper.createInfo("Ataque exitoso", "La base fue atacada con éxito");
                 alert.showAndWait();
                 targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
                 manager_monsters.removeMonster(attackMonsterInit, targetPlayer.getArrPaths(), manager_player.getCurrentPlayer().getArrMonsters(), Board);
