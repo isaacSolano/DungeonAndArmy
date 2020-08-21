@@ -10,16 +10,18 @@ import javafx.scene.image.ImageView;
 public class Player {
     private ImageView baseIcon;
     private String id;
-    private int basePosition;
+    private String basePosition;
+    private int lifes;
     private ArrayList<aPath> arrPaths;
     private ArrayList<Soldier> arrMonsters;
     private ArrayList<String> movementChest, attackChest, specialChest, summoningChest;
     private Manager_Dice managerDice;
 
-    public Player(String id, int basePosition, ImageView baseIcon) {
+    public Player(String id, String basePosition, ImageView baseIcon) {
         this.baseIcon = baseIcon;
         this.id = id;
         this.basePosition = basePosition;
+        this.lifes = 4;
         arrPaths = new ArrayList<>();
         arrMonsters = new ArrayList<>();
         managerDice = new Manager_Dice();
@@ -37,11 +39,11 @@ public class Player {
         this.id = id;
     }
 
-    public int getBasePosition() {
+    public String getBasePosition() {
         return basePosition;
     }
 
-    public void setBasePosition(int basePosition) {
+    public void setBasePosition(String basePosition) {
         this.basePosition = basePosition;
     }
 
@@ -53,6 +55,14 @@ public class Player {
 
     public void setBaseIcon(ImageView baseIcon) {
         this.baseIcon = baseIcon;
+    }
+
+    public int getLifes() {
+        return lifes;
+    }
+
+    public void setLifes(int lifes) {
+        this.lifes = lifes;
     }
 
     public ArrayList<aPath> getArrPaths() {
@@ -109,22 +119,6 @@ public class Player {
         }
         return "Dado agregado";
     }
-
-    /**
-     *
-     * @param pDado Dice to move the monster.
-     * @return String con el valor que debe mover el dado.
-     */
-    /*public String movePiece(String pDado){
-
-        for (String dado:movementChest) {
-            if(dado.equals(pDado)){
-                movementChest.remove(dado);
-                return dado;
-            }
-        }
-        return null;
-    }*/
 
     /**
      *
@@ -204,6 +198,10 @@ public class Player {
         for (int i =0; i < delAmm; i++){
             summoningChest.remove(arrFoundTypes.get(i));
         }
+    }
+
+    public void discountAttackDice(){
+        attackChest.remove(0);
     }
 
     @Override

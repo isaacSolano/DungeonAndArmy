@@ -5,8 +5,10 @@ import DungeonAndArmy.Abstract_Factory.AbstractProduct.Soldier;
 import DungeonAndArmy.Abstract_Factory.ConcreteFactory.Artillery.*;
 import DungeonAndArmy.Abstract_Factory.ConcreteFactory.Infantry.*;
 import DungeonAndArmy.Abstract_Factory.ConcreteFactory.Tank.*;
+import DungeonAndArmy.Bridge.Abstract.iShape;
 import DungeonAndArmy.Bridge.Actions.*;
 import DungeonAndArmy.Prototype.iPrototype.aPath;
+import DungeonAndArmy.Singleton.Player;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -236,5 +238,75 @@ public class Manager_Monsters {
         }
 
         return status;
+    }
+
+    public String attackMonster(Soldier origin, Soldier target){
+        String result = "";
+
+        if( !checkRange(origin.getCoords(), target.getCoords()) ){
+            result = "El objetivo está fuera de alcance";
+        }else{
+            int attackPoints = origin.getAttack(), defensePoints = target.getDefense(), lifePoints = target.getLife();
+
+            if(defensePoints >= attackPoints){
+                target.setDefense( defensePoints - attackPoints );
+            }else if(defensePoints + lifePoints >= attackPoints){
+                if(defensePoints - attackPoints > 0){
+                    attackPoints = defensePoints - attackPoints;
+                    target.setDefense(0);
+                    target.setLife( lifePoints - attackPoints );
+                }else{
+                    target.setLife( lifePoints - attackPoints );
+                }
+            }else{
+                result = "*";
+            }
+        }
+
+        return result;
+    }
+
+    public void removeMonster(Soldier targetMonster, ArrayList<aPath> arrPaths, ArrayList<Soldier> arrMonsters, GridPane Board){
+        for(aPath path : arrPaths){
+            for(String coords : path.getShape().getArrCoords()) {
+                if(coords.equals(targetMonster.getCoords())){
+                    path.getShape().setAction(new RemoveMonster());
+                    path.getShape().removeMonster(Board, targetMonster.getCoords());
+                }
+            }
+        }
+
+        arrMonsters.remove(targetMonster);
+    }
+
+    private boolean checkRange(String originCoords, String targetCoords){
+        boolean canAttack = false;
+
+        ArrayList<String> possibleCoords = new ArrayList<>();
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) + 1 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) - 1 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) + 1) );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) - 1) );
+
+        for(String coord : possibleCoords){
+            if(coord.equals(targetCoords)){
+                canAttack = true;
+            }
+        }
+
+        return canAttack;
+    }
+
+    public String attackBase(String monsterCoords, Player targetPlayer){
+        String result = "";
+        if( !checkRange( monsterCoords, targetPlayer.getBasePosition() ) ){
+            result = "El objetivo está fuera de alcance";
+        }else if(targetPlayer.getLifes() <= 1) {
+            result = "*";
+        }else{
+            targetPlayer.setLifes( targetPlayer.getLifes() - 1 );
+        }
+
+        return result;
     }
 }

@@ -88,20 +88,6 @@ public class Bronn implements Soldier {
         this.specialAttack = specialAttack;
     }
 
-
-    /**
-     * Section to implement interface functions
-     */
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void attack() {
-
-    }
-
     @Override
     public void launchSpecialAttack() {
 

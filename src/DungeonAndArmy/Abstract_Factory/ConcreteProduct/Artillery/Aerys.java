@@ -91,17 +91,6 @@ public class Aerys implements Soldier {
     }
 
 
-    /**
-     * Section to implement interface functions
-     */
-    @Override
-    public void move() {
-    }
-
-    @Override
-    public void attack() {
-    }
-
     @Override
     public void launchSpecialAttack() {
     }

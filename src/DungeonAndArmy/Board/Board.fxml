@@ -14,15 +14,16 @@
     <GridPane fx:id="Dashboard" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.columnSpan="2">
         <Label fx:id="txtImage" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="CENTER"></Label>
         <Label fx:id="txtTimer" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.halignment="CENTER"></Label>
+        <Label fx:id="txtLifes" alignment="center" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.halignment="CENTER"></Label>
 
-        <Label GridPane.columnIndex="2" GridPane.rowIndex="3"></Label>
         <Label GridPane.columnIndex="2" GridPane.rowIndex="4"></Label>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="5"></Label>
 
-        <Button text="Saltar turno" alignment="center" onAction="#nextRound" fx:id="btnRound" GridPane.columnIndex="2" GridPane.rowIndex="5" styleClass="btnAction" GridPane.halignment="CENTER"/>
+        <Button text="Saltar turno" alignment="center" onAction="#nextRound" fx:id="btnRound" GridPane.columnIndex="2" GridPane.rowIndex="6" styleClass="btnAction" GridPane.halignment="CENTER"/>
 
-        <Label GridPane.columnIndex="2" GridPane.rowIndex="6"></Label>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="7"></Label>
 
-        <Button text="Ver Cofre" alignment="center" onAction="#invokeDice" fx:id="btnDice" GridPane.columnIndex="2" GridPane.rowIndex="7" styleClass="btnAction" GridPane.halignment="CENTER" />
+        <Button text="Ver Cofre" alignment="center" onAction="#invokeDice" fx:id="btnDice" GridPane.columnIndex="2" GridPane.rowIndex="8" styleClass="btnAction" GridPane.halignment="CENTER" />
     </GridPane>
 
     <GridPane fx:id="PathBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
@@ -33,7 +34,7 @@
         <Button onAction="#invokePath" fx:id="U" GridPane.columnIndex="5" GridPane.rowIndex="1" styleClass="btnPath" />
         <Button onAction="#invokePath" fx:id="T" GridPane.columnIndex="6" GridPane.rowIndex="1" styleClass="btnPath" />
 
-        <Button onAction="#flipPath" text="Flip" GridPane.columnIndex="7" GridPane.rowIndex="1" styleClass="btnPath" />
+        <Button onAction="#flipPath" text="Girar" GridPane.columnIndex="7" GridPane.rowIndex="1" styleClass="btnPath" />
     </GridPane>
 
     <GridPane fx:id="CategoryBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">

@@ -11,18 +11,19 @@ import DungeonAndArmy.Helper.FileManager;
 import DungeonAndArmy.Helper.Helper;
 
 import DungeonAndArmy.Prototype.iPrototype.aPath;
+import DungeonAndArmy.Routes.Router;
 import DungeonAndArmy.Singleton.Player;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -36,7 +37,7 @@ public class Board {
     public Button MovementDice, AttackDice, SummonDice, SpecialDice;
     public Button btnMove_0, btnMove_1, btnMove_2;
 
-    public Label txtTimer, txtImage;
+    public Label txtTimer, txtImage, txtLifes;
     public Label movementLabel, attackLabel, specialLabel, summonLabel;
     public Label tankCount, artilleryCount, infantryCount;
 
@@ -65,10 +66,16 @@ public class Board {
     private Timer timer = new Timer();
 
     private Soldier bAddMonster = null;
-    private Soldier moveSoldier = null;
+    private Soldier moveMonster = null;
+    private Soldier attackMonsterInit = null;
+    private Soldier attackMonsterEnd = null;
 
     private boolean bMoveMonsterInit = false;
     private boolean bMoveMonsterEnd = false;
+    private boolean bAttackMonsterInit = false;
+    private boolean bAttackMonsterEnd = false;
+
+    Router routes = new Router();
 
     /****************************************************************************
      * Function which will initiate the timer needed to count the rounds.
@@ -90,6 +97,7 @@ public class Board {
                 refreshDices();
             }
 
+            refreshLifes();
             txtImage.setGraphic( manager_player.getCurrentPlayer().getBaseIcon() );
             txtTimer.setText( "\n" + (roundTime - secondsPassed) + " segundos de juego" );
             secondsPassed++;
@@ -153,6 +161,10 @@ public class Board {
         }
     }
 
+    private void refreshLifes(){
+        txtLifes.setText("Vidas restantes:" + manager_player.getCurrentPlayer().getLifes() );
+    }
+
     /****************************************************************************
      * Function which will create the main board, provide the required
      * id's for the different buttons and classes for the appropriate look of each element.
@@ -191,6 +203,12 @@ public class Board {
         btnBaseA.getStyleClass().add("natural-color");
         btnBaseB.getStyleClass().add("natural-color");
 
+        btnBaseA.setId(0 + "_" + basePositionA);
+        btnBaseB.setId(21 + "_" + basePositionB);
+
+        btnBaseA.setOnAction(e -> getPosition(e));
+        btnBaseB.setOnAction(e -> getPosition(e));
+
         ImageView imgIconA = fileManager.getArrImageBases("A");
         ImageView imgIconB = fileManager.getArrImageBases("B");
 
@@ -206,8 +224,8 @@ public class Board {
         Board.add(btnBaseA, basePositionA, 0);
         Board.add(btnBaseB, basePositionB, 21);
 
-        playerA = new Player("A", basePositionA, fileManager.getArrImageBases("A"));
-        playerB = new Player("B", basePositionB, fileManager.getArrImageBases("B"));
+        playerA = new Player("A", 0 + "_" + basePositionA, fileManager.getArrImageBases("A"));
+        playerB = new Player("B", 21 + "_" + basePositionB, fileManager.getArrImageBases("B"));
 
         manager_player.assingRound(playerA);
         start();
@@ -232,6 +250,104 @@ public class Board {
         if(bAddMonster != null) {
             addMonster(btnPosition);
         }
+
+        if(bAttackMonsterEnd){
+            selectTargetMonster(btnPosition.getId(), e);
+        }
+
+        if(bAttackMonsterInit){
+            selectAttackMonster(btnPosition.getId());
+        }
+    }
+
+    /****************************************************************************
+     * Function that will be triggered after the user select the monster to attack from.
+     ****************************************************************************/
+    public void selectAttackMonster(String coords){
+        attackMonsterInit = manager_monsters.getMonster(coords, manager_player.getCurrentPlayer().getArrMonsters() );
+
+        if(attackMonsterInit == null){
+            Alert alert = alertHelper.createErr("No existe un monstruo de su ejército en la posición indicada");
+            alert.showAndWait();
+
+            bAttackMonsterInit = false;
+        }else{
+            Alert alert = alertHelper.createInfo("Objetivo", "Seleccione el monstruo del contrincante que desea atacar");
+            alert.showAndWait();
+
+            bAttackMonsterEnd = true;
+            bAttackMonsterInit = false;
+        }
+    }
+
+    public void selectTargetMonster(String coords, ActionEvent e){
+        Player targetPlayer;
+
+        if(manager_player.getCurrentPlayer().equals(playerA)){
+            targetPlayer = playerB;
+        }else{
+            targetPlayer = playerA;
+        }
+
+        if(coords.equals(targetPlayer.getBasePosition())){
+            String result = manager_monsters.attackBase(attackMonsterInit.getCoords(), targetPlayer);
+
+            if(result.equals("")){
+                Alert alert = alertHelper.createInfo("Ataque exitoso", "La base fue atacada con exito");
+                alert.showAndWait();
+                targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
+                manager_monsters.removeMonster(attackMonsterInit, targetPlayer.getArrPaths(), manager_player.getCurrentPlayer().getArrMonsters(), Board);
+
+                refreshLifes();
+
+                manager_player.discountAttackDices(manager_player.getCurrentPlayer());
+                attackLabel.setText("Cantidad " + manager_player.getCurrentPlayer().countAttackDice());
+                CofferBox.setVisible(false);
+            }else if(result.equals("*")) {
+                Alert alert  = alertHelper.createInfo("Ganador", "La base contraria ya no tiene mas vidas");
+                alert.showAndWait();
+
+                try {
+                    routes.navigateEnd(e);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }else{
+                Alert alert = alertHelper.createErr(result);
+                alert.showAndWait();
+            }
+        }else {
+            attackMonsterEnd = manager_monsters.getMonster(coords, targetPlayer.getArrMonsters());
+
+            if (attackMonsterEnd == null) {
+                Alert alert = alertHelper.createErr("El contrincante no tiene un monstruo en la posición indicada");
+                alert.showAndWait();
+
+                bAttackMonsterEnd = false;
+            } else {
+                String result = manager_monsters.attackMonster(attackMonsterInit, attackMonsterEnd);
+
+                if (result.equals("")) {
+                    Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo fue atacado con exito");
+                    alert.showAndWait();
+                } else if (result.equals("*")) {
+                    Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo no ha sobrevivido el ataque");
+                    alert.showAndWait();
+
+                    targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
+                    manager_monsters.removeMonster(attackMonsterEnd, targetPlayer.getArrPaths(), targetPlayer.getArrMonsters(), Board);
+                } else {
+                    Alert alert = alertHelper.createErr(result);
+                    alert.showAndWait();
+                }
+
+                manager_player.discountAttackDices(manager_player.getCurrentPlayer());
+                attackLabel.setText("Cantidad " + manager_player.getCurrentPlayer().countAttackDice());
+                CofferBox.setVisible(false);
+            }
+        }
+
+        bAttackMonsterEnd = false;
     }
 
     /****************************************************************************
@@ -240,9 +356,9 @@ public class Board {
      * @param currCoords The current coords of the click event(from where the monster will be obtained).
      ****************************************************************************/
     public void moveMonsterInit(String currCoords){
-        moveSoldier = manager_monsters.getMonster( currCoords, manager_player.getCurrentPlayer().getArrMonsters() );
+        moveMonster = manager_monsters.getMonster( currCoords, manager_player.getCurrentPlayer().getArrMonsters() );
 
-        if(moveSoldier == null){
+        if(moveMonster == null){
             Alert alert = alertHelper.createErr("No existe un monstruo en su armada, en la posición indicada");
             alert.showAndWait();
         }else {
@@ -259,7 +375,17 @@ public class Board {
      * @param coords The final coords(To where te monster will be moved).
      ****************************************************************************/
     public void moveMonsterEnd(String coords){
-        String result = manager_monsters.moveMonster( moveSoldier, coords, manager_player.getCurrentPlayer().getArrPaths(), manager_player.getCurrentPlayer().getArrMonsters(), Board, totalMovement);
+        ArrayList<aPath> arrPaths;
+
+        if(manager_player.getCurrentPlayer().equals(playerA)){
+            arrPaths = playerB.getArrPaths();
+        }else{
+            arrPaths = playerA.getArrPaths();
+        }
+
+        arrPaths.addAll(manager_player.getCurrentPlayer().getArrPaths());
+
+        String result = manager_monsters.moveMonster(moveMonster, coords, arrPaths, manager_player.getCurrentPlayer().getArrMonsters(), Board, totalMovement);
 
         if(!result.equals("")){
             Alert alert = alertHelper.createErr(result);
@@ -425,7 +551,7 @@ public class Board {
         if(bAddMonster == null){
             Alert alert = alertHelper.createErr("Seleccione un monstruo para continuar");
             alert.showAndWait();
-        }else if(manager_player.getCurrentPlayer().getArrPaths().size() == 0 && (actionPosition[0] != basePositionY || actionPosition[1] != currPlayer.getBasePosition()) ){
+        }else if(manager_player.getCurrentPlayer().getArrPaths().size() == 0 && (actionPosition[0] != basePositionY || actionPosition[1] != Integer.valueOf(currPlayer.getBasePosition().split("_")[1])) ){
             Alert alert = alertHelper.createErr("El camino debe estar conectado a su base");
             alert.showAndWait();
         }else {
@@ -496,8 +622,24 @@ public class Board {
         CofferBox.setVisible(false);
     }
 
+    /****************************************************************************
+     * Function that will pop-up an alert to the user indicating to select from the board
+     * the desired monster to attack from.
+     * @param actionEvent click event
+     ****************************************************************************/
     public void attack(ActionEvent actionEvent) {
-        if (manager_player.getCurrentPlayer().countAttackDice() > 0){ }
+        if( manager_player.getCurrentPlayer().countAttackDice() <= 0 ){
+            Alert alert = alertHelper.createErr("No tiene suficientes dados para atacar");
+            alert.showAndWait();
+        }else if (manager_player.getCurrentPlayer().getArrMonsters().size() > 0){
+            Alert alert = alertHelper.createInfo("Seleccione el monstruo", "Seleccione el monstruo de su ejército desde el cuál desea atacar");
+            alert.showAndWait();
+
+            bAttackMonsterInit = true;
+        }else{
+            Alert alert = alertHelper.createErr("No cuenta con ejército para atacar");
+            alert.showAndWait();
+        }
     }
 
     public void useSpecial(ActionEvent actionEvent) {

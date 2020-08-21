@@ -23,7 +23,7 @@ public class Manager_Player {
 
     public String changePlayer(Player playerA, Player playerB){
         String currentPlayer = currentRound.getPlayer().getId(),
-                res = "";
+                res;
         Round.removeRound();
 
         if (currentPlayer == "A"){
@@ -47,6 +47,7 @@ public class Manager_Player {
         getCurrentPlayer().discountSummoningDice(type, delAmm);
     }
 
-
-
+    public void discountAttackDices(Player targetPlayer){
+        targetPlayer.discountAttackDice();
+    }
 }

@@ -7,8 +7,12 @@ import javafx.scene.image.ImageView;
  */
 
 public interface Soldier {
-    void move();
-    void attack();
+    int getAttack();
+    int getDefense();
+    int getLife();
+
+    void setDefense(int defense);
+    void setLife(int life);
     void launchSpecialAttack();
     void setCoords(String coords);
     ImageView getImage();
