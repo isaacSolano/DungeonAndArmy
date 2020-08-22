@@ -309,4 +309,86 @@ public class Manager_Monsters {
 
         return result;
     }
+
+	public String attackMonsterSpecial(Soldier origin, Soldier target, String specialType) {
+        String result = "";
+        boolean inRange = false;
+        int attackPoints = 0;
+        
+        switch (specialType){
+            case "Infantry":
+                inRange = checkRange(origin.getCoords(), target.getCoords());
+                attackPoints = origin.getAttack()+2;
+                break;
+            case "Artillery":
+                inRange = checkRangeSpecial(origin.getCoords(), target.getCoords());
+                attackPoints = origin.getAttack();
+                break;
+        }
+
+        if( !inRange ){
+            result = "El objetivo está fuera de alcance";
+        }else{
+            int defensePoints = target.getDefense(), lifePoints = target.getLife();
+
+            if(defensePoints >= attackPoints){
+                target.setDefense( defensePoints - attackPoints );
+            }else if(defensePoints + lifePoints >= attackPoints){
+                if(defensePoints - attackPoints > 0){
+                    attackPoints = defensePoints - attackPoints;
+                    target.setDefense(0);
+                    target.setLife( lifePoints - attackPoints );
+                }else{
+                    target.setLife( lifePoints - attackPoints );
+                }
+            }else{
+                result = "*";
+            }
+        }
+        return result;
+	}
+
+    private boolean checkRangeSpecial(String originCoords, String targetCoords) {
+        ArrayList<String> possibleCoords = new ArrayList<>();
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) + 1 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) + 2 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) - 1 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( Integer.valueOf(originCoords.split("_")[0]) - 2 + "_" + originCoords.split("_")[1] );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) + 1) );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) + 2) );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) - 1) );
+        possibleCoords.add( originCoords.split("_")[0] + "_" + (Integer.valueOf(originCoords.split("_")[1]) - 2) );
+
+        for(String coord : possibleCoords){
+            if(coord.equals(targetCoords)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String attackBaseSpecial(String monsterCoords, Player targetPlayer, String specialType) {
+        String result = "";
+        boolean inRange = false;
+        int livesToTake = 1;
+
+        switch (specialType){
+            case "Infantry":
+                inRange = checkRange(monsterCoords, targetPlayer.getBasePosition());
+                livesToTake = 2;
+                break;
+            case "Artillery":
+                inRange = checkRangeSpecial(monsterCoords, targetPlayer.getBasePosition());
+                break;
+        }
+        if( !inRange ){
+            result = "El objetivo está fuera de alcance";
+        }else if(targetPlayer.getLifes() <= livesToTake) {
+            result = "*";
+        }else{
+            targetPlayer.setLifes( targetPlayer.getLifes() - livesToTake );
+        }
+
+        return result;
+    }
 }

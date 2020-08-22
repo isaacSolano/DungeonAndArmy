@@ -73,7 +73,8 @@ public class Board {
     private boolean bMoveMonsterInit = false;
     private boolean bMoveMonsterEnd = false;
     private boolean bAttackMonsterInit = false;
-    private boolean bAttackMonsterEnd = false;
+    private boolean bAttackMonsterEnd = false, bSpecialMoveInit = false, bSpecialMoveEnd = false;
+    private String specialType = null;
 
     Router routes = new Router();
 
@@ -255,9 +256,120 @@ public class Board {
             selectTargetMonster(btnPosition.getId(), e);
         }
 
+        if(bSpecialMoveInit){
+            selectSpecialMoveMonster(btnPosition.getId());
+        }
+
         if(bAttackMonsterInit){
             selectAttackMonster(btnPosition.getId());
         }
+
+        if(bSpecialMoveEnd)
+            selectTargetSpecialMonster(btnPosition.getId(), e);
+    }
+
+    private void selectTargetSpecialMonster(String coords, ActionEvent e) {
+        Player targetPlayer;
+
+        if(manager_player.getCurrentPlayer().equals(playerA)){
+            targetPlayer = playerB;
+        }else{
+            targetPlayer = playerA;
+        }
+
+        if(coords.equals(targetPlayer.getBasePosition())){
+            String result = manager_monsters.attackBaseSpecial(attackMonsterInit.getCoords(), targetPlayer, specialType);
+
+            if(result.equals("")){
+                Alert alert = alertHelper.createInfo("Ataque exitoso", "La base fue atacada con exito");
+                alert.showAndWait();
+                targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
+                manager_monsters.removeMonster(attackMonsterInit, targetPlayer.getArrPaths(), manager_player.getCurrentPlayer().getArrMonsters(), Board);
+
+                refreshLifes();
+
+                manager_player.discountAttackDices(manager_player.getCurrentPlayer());
+                attackLabel.setText("Cantidad " + manager_player.getCurrentPlayer().countAttackDice());
+                CofferBox.setVisible(false);
+            }else if(result.equals("*")) {
+                Alert alert  = alertHelper.createInfo("Ganador", "La base contraria ya no tiene mas vidas");
+                alert.showAndWait();
+
+                try {
+                    routes.navigateEnd(e);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }else{
+                Alert alert = alertHelper.createErr(result);
+                alert.showAndWait();
+            }
+        }else {
+            attackMonsterEnd = manager_monsters.getMonster(coords, targetPlayer.getArrMonsters());
+
+            if (attackMonsterEnd == null) {
+                Alert alert = alertHelper.createErr("El contrincante no tiene un monstruo en la posición indicada");
+                alert.showAndWait();
+
+                bAttackMonsterEnd = false;
+            } else {
+                String result = manager_monsters.attackMonsterSpecial(attackMonsterInit, attackMonsterEnd, specialType);
+
+                if (result.equals("")) {
+                    Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo fue atacado con exito");
+                    alert.showAndWait();
+                } else if (result.equals("*")) {
+                    Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo no ha sobrevivido el ataque");
+                    alert.showAndWait();
+
+                    targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
+                    manager_monsters.removeMonster(attackMonsterEnd, targetPlayer.getArrPaths(), targetPlayer.getArrMonsters(), Board);
+                } else {
+                    Alert alert = alertHelper.createErr(result);
+                    alert.showAndWait();
+                }
+
+                manager_player.discountAttackDices(manager_player.getCurrentPlayer());
+                attackLabel.setText("Cantidad " + manager_player.getCurrentPlayer().countAttackDice());
+                CofferBox.setVisible(false);
+            }
+        }
+
+        bAttackMonsterEnd = false;
+    }
+
+    /**
+     *
+     * @param coords
+     */
+    private void selectSpecialMoveMonster(String coords) {
+        attackMonsterInit = manager_monsters.getMonster(coords, manager_player.getCurrentPlayer().getArrMonsters() );
+
+        Alert alert;
+        if(attackMonsterInit == null){
+            alert = alertHelper.createErr("No existe un monstruo de su ejército en la posición indicada");
+            alert.showAndWait();
+
+        }else{
+            switch (attackMonsterInit.getClass().toString()){
+                case "Aerys": case "Boko": case "Bora": case "Glognar": case "Helms":
+                    specialType = "Artillery";
+                    alert = alertHelper.createInfo("Objetivo", "Seleccione el monstruo del contrincante que desea atacar");
+                    alert.showAndWait();
+                    bSpecialMoveEnd = true;
+                    break;
+                case "Arryn": case "Arthur": case "Brienne": case "Bronn": case "Obara":
+                    specialType = "Infantry";
+                    alert = alertHelper.createInfo("Objetivo", "Seleccione el monstruo del contrincante que desea atacar");
+                    alert.showAndWait();
+                    bSpecialMoveEnd = true;
+                    break;
+                case "Castlely": case "Forerunner": case "Rhaegon": case "Siddon": case "Varys":
+                    attackMonsterInit.setLife(attackMonsterInit.getLife()+1);
+                    break;
+            }
+        }
+        bSpecialMoveInit = false;
     }
 
     /****************************************************************************
@@ -642,6 +754,10 @@ public class Board {
         }
     }
 
+    /**
+     * Function that prompts the user to choose a monster to perform the special movement.
+     * @param actionEvent a click event on the button
+     */
     public void useSpecial(ActionEvent actionEvent) {
         Alert alert;
         if (manager_player.getCurrentPlayer().countSpecialDice() <= 0){
