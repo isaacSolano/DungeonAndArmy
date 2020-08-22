@@ -75,17 +75,16 @@
     <GridPane fx:id="CofferBox" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">
         <Label GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="p-b" GridPane.halignment="CENTER">Dados Disponibles</Label>
 
-        <Button onAction="#showMovementDice" alignment="center" fx:id="MovementDice" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="btnPath"/>
-        <Label fx:id="movementLabel" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button onAction="#showMovementDice" alignment="center" fx:id="MovementDice" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="btnPath"/>
+            <Label fx:id="movementLabel" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-        <Button onAction="#attack" alignment="center" fx:id="AttackDice" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnPath"/>
-        <Label fx:id="attackLabel" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Button onAction="#attack" alignment="center" fx:id="AttackDice" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="btnPath"/>
+            <Label fx:id="attackLabel" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Button onAction="#showMonsterPanel" alignment="center" fx:id="SummonDice" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnPath"/>
-        <Label fx:id="summonLabel" alignment="center"  GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-
-        <Button onAction="#useSpecial" alignment="center" fx:id="SpecialDice" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="btnPath"/>
-        <Label fx:id="specialLabel" alignment="center"  GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            <Button onAction="#showMonsterPanel" alignment="center" fx:id="SummonDice" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="btnPath"/>
+            <Label fx:id="summonLabel" alignment="center"  GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        </GridPane>
     </GridPane>
 
     <GridPane fx:id="CofferMovement" alignment="center" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="d-none">

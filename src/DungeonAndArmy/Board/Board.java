@@ -34,7 +34,7 @@ public class Board {
     public Button L, Cruz, Z, P, U, T;
     public Button Aerys, Arryn, Arthur, Boko, Bora, Brienne, Bronn, Castlely, Forerunner, Glognar, Helms, Obara, Rhageon, Siddon, Varys;
     public Button Infantry, Artillery, Tanks;
-    public Button MovementDice, AttackDice, SummonDice, SpecialDice;
+    public Button MovementDice, AttackDice, SummonDice;
     public Button btnMove_0, btnMove_1, btnMove_2;
 
     public Label txtTimer, txtImage, txtLifes;
@@ -145,7 +145,6 @@ public class Board {
         MovementDice.setGraphic( fileManager.getArrImagesActions().get(0) );
         AttackDice.setGraphic( fileManager.getArrImagesActions().get(1) );
         SummonDice.setGraphic( fileManager.getArrImagesActions().get(2) );
-        SpecialDice.setGraphic( fileManager.getArrImagesActions().get(3) );
 
         arrBtnMovement.add(btnMove_0);
         arrBtnMovement.add(btnMove_1);
@@ -330,12 +329,17 @@ public class Board {
                 if (result.equals("")) {
                     Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo fue atacado con exito");
                     alert.showAndWait();
+
+                    nextRound();
+
                 } else if (result.equals("*")) {
                     Alert alert = alertHelper.createInfo("Ataque exitoso", "El monstruo no ha sobrevivido el ataque");
                     alert.showAndWait();
 
                     targetPlayer.getArrPaths().addAll(manager_player.getCurrentPlayer().getArrPaths());
                     manager_monsters.removeMonster(attackMonsterEnd, targetPlayer.getArrPaths(), targetPlayer.getArrMonsters(), Board);
+
+                    nextRound();
                 } else {
                     Alert alert = alertHelper.createErr(result);
                     alert.showAndWait();
@@ -393,6 +397,7 @@ public class Board {
         }else{
             manager_player.discountMovementDices(idDice);
             refreshDices();
+            nextRound();
         }
 
         CofferMovement.setVisible(false);
@@ -415,9 +420,8 @@ public class Board {
 
     /****************************************************************************
      * Function that will initiate the roll up dices function.
-     * @param e The action of the click event.
      ****************************************************************************/
-    public void nextRound(ActionEvent e){
+    public void nextRound(){
         secondsPassed = roundTime;
     }
 
@@ -433,7 +437,6 @@ public class Board {
         CofferMovement.setVisible(false);
 
         movementLabel.setText(description + manager_player.getCurrentPlayer().countMovementDice() );
-        specialLabel.setText(description + manager_player.getCurrentPlayer().countSpecialDice() );
         attackLabel.setText(description + manager_player.getCurrentPlayer().countAttackDice() );
         summonLabel.setText(description + manager_player.getCurrentPlayer().countSummoningDice() );
     }
@@ -567,6 +570,7 @@ public class Board {
 
                 manager_player.discountSummonigDices( selectedMonster.split("_")[0], Integer.valueOf(selectedMonster.split("_")[1]) );
                 bAddMonster = null;
+                nextRound();
             }
         }
 
@@ -640,9 +644,5 @@ public class Board {
             Alert alert = alertHelper.createErr("No cuenta con ejército para atacar");
             alert.showAndWait();
         }
-    }
-
-    public void useSpecial(ActionEvent actionEvent) {
-        if (manager_player.getCurrentPlayer().countSpecialDice() > 0){ }
     }
 }
