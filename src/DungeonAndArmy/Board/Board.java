@@ -256,16 +256,19 @@ public class Board {
             selectTargetMonster(btnPosition.getId(), e);
         }
 
-        if(bSpecialMoveInit){
-            selectSpecialMoveMonster(btnPosition.getId());
-        }
-
         if(bAttackMonsterInit){
             selectAttackMonster(btnPosition.getId());
         }
 
+        System.out.println(bSpecialMoveEnd);
+        System.out.println(bSpecialMoveInit);
+
         if(bSpecialMoveEnd)
             selectTargetSpecialMonster(btnPosition.getId(), e);
+
+        if(bSpecialMoveInit){
+            selectSpecialMoveMonster(btnPosition.getId());
+        }
     }
 
     private void selectTargetSpecialMonster(String coords, ActionEvent e) {
