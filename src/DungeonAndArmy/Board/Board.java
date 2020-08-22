@@ -266,18 +266,18 @@ public class Board {
     public void selectAttackMonster(String coords){
         attackMonsterInit = manager_monsters.getMonster(coords, manager_player.getCurrentPlayer().getArrMonsters() );
 
+        Alert alert;
         if(attackMonsterInit == null){
-            Alert alert = alertHelper.createErr("No existe un monstruo de su ejército en la posición indicada");
+            alert = alertHelper.createErr("No existe un monstruo de su ejército en la posición indicada");
             alert.showAndWait();
 
-            bAttackMonsterInit = false;
         }else{
-            Alert alert = alertHelper.createInfo("Objetivo", "Seleccione el monstruo del contrincante que desea atacar");
+            alert = alertHelper.createInfo("Objetivo", "Seleccione el monstruo del contrincante que desea atacar");
             alert.showAndWait();
 
             bAttackMonsterEnd = true;
-            bAttackMonsterInit = false;
         }
+        bAttackMonsterInit = false;
     }
 
     public void selectTargetMonster(String coords, ActionEvent e){
