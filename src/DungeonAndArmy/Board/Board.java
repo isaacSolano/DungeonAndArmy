@@ -366,6 +366,8 @@ public class Board {
                     break;
                 case "Castlely": case "Forerunner": case "Rhaegon": case "Siddon": case "Varys":
                     attackMonsterInit.setLife(attackMonsterInit.getLife()+1);
+                    alert = alertHelper.createInfo("Rejuvenecimiento.","¡Tu monstruo ha ganado 1 punto de vida!");
+                    alert.showAndWait();
                     break;
             }
         }
@@ -762,13 +764,14 @@ public class Board {
         Alert alert;
         if (manager_player.getCurrentPlayer().countSpecialDice() <= 0){
             alert = alertHelper.createErr("No tiene suficientes dados para usar el movimiento especial.");
+            alert.showAndWait();
         }else if (manager_player.getCurrentPlayer().getArrMonsters().size() > 0){
             alert = alertHelper.createInfo("Seleccione el monstruo","¿Cual monstruo usara el movimiento especial?");
             alert.showAndWait();
             bSpecialMoveInit = true;
         }else {
             alert = alertHelper.createErr("No tiene monstruos para ordenar.");
+            alert.showAndWait();
         }
-        alert.showAndWait();
     }
 }
