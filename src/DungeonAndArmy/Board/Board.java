@@ -643,6 +643,16 @@ public class Board {
     }
 
     public void useSpecial(ActionEvent actionEvent) {
-        if (manager_player.getCurrentPlayer().countSpecialDice() > 0){ }
+        Alert alert;
+        if (manager_player.getCurrentPlayer().countSpecialDice() <= 0){
+            alert = alertHelper.createErr("No tiene suficientes dados para usar el movimiento especial.");
+        }else if (manager_player.getCurrentPlayer().getArrMonsters().size() > 0){
+            alert = alertHelper.createInfo("Seleccione el monstruo","¿Cual monstruo usara el movimiento especial?");
+            alert.showAndWait();
+            bSpecialMoveInit = true;
+        }else {
+            alert = alertHelper.createErr("No tiene monstruos para ordenar.");
+        }
+        alert.showAndWait();
     }
 }
